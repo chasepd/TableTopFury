@@ -1,3 +1,3 @@
 ﻿
-using var game = new TableTopFury.Game1();
+using var game = new TableTopFury.TableTopFuryGame();
 game.Run();
