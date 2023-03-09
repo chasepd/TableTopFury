@@ -13,7 +13,7 @@ namespace TableTopFury
         Texture2D ballTexture;
         Vector2 ballPosition;
         int frame;
-        int count;
+        double timeTracker;
         Rectangle ballSourceRectangle;
 
         public TableTopFuryGame()
@@ -32,7 +32,7 @@ namespace TableTopFury
                _graphics.PreferredBackBufferHeight / 2);
 
             frame = 1;
-            count = 0;
+            timeTracker = 0.0;
         }
 
         protected override void LoadContent()
@@ -45,11 +45,12 @@ namespace TableTopFury
 
         protected override void Update(GameTime gameTime)
         {
-            count = count + 1;
-            if (count == 4)
+            timeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+            
+            if (timeTracker >= 0.1)
             {
                 frame = frame + 1;
-                count = 0;
+                timeTracker = 0.0;
             }
             if (frame < 1 || frame > 13)
             {
