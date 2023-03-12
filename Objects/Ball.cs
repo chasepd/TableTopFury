@@ -80,10 +80,11 @@ namespace TableTopFury.Objects
                 }
                 if (position.X < ballSizeModifier)
                 {
-                    position.X = ballSizeModifier;
-                    speedX += new Random().Next(-1, 1);
-                    speedY += new Random().Next(-1, 1);
-                    speedX *= -1;                 
+                    Explode();
+                    //position.X = ballSizeModifier;
+                    //speedX += new Random().Next(-1, 1);
+                    //speedY += new Random().Next(-1, 1);
+                    //speedX *= -1;                 
                 }
 
                 if (position.Y > graphics.PreferredBackBufferHeight - ballSizeModifier)
@@ -99,6 +100,19 @@ namespace TableTopFury.Objects
                     speedX += new Random().Next(-1, 1);
                     speedY += new Random().Next(-1, 1);
                     speedY *= -1;
+                }
+
+                foreach (TTFObject obj in objects)
+                {
+                    if (obj != this)
+                    {
+                        if (obj.IsCollisionPoint(new Vector2(position.X + ballSizeModifier, position.Y + ballSizeModifier), new Vector2(ballSizeModifier * 2, ballSizeModifier * 2)))
+                        {
+                            speedX += new Random().Next(-1, 1);
+                            speedY += new Random().Next(-1, 1);
+                            speedX *= -1;
+                        }
+                    }
                 }
 
                 position.Y += speedY;
@@ -144,7 +158,7 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override bool IsCollisionPoint(Vector2 point)
+        public override bool IsCollisionPoint(Vector2 point, Vector2 size)
         {
             throw new NotImplementedException();
         }

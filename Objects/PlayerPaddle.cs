@@ -97,9 +97,13 @@ namespace TableTopFury.Objects
                 );
         }
 
-        public override bool IsCollisionPoint(Vector2 point)
+        public override bool IsCollisionPoint(Vector2 point, Vector2 size)
         {
-            throw new NotImplementedException();
+            if (point.X > position.X && point.X < position.X + (2 * paddleWidthModifier) && point.Y > position.Y && point.Y < position.Y + (2 * paddleHeightModifier) )
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
