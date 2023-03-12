@@ -15,6 +15,9 @@ namespace TableTopFury.Objects
         public Texture2D texture;
         public int animationFrame;
         public Rectangle sourceRectangle;
+        public float rotation;
+        public int speedX;
+        public int speedY;
 
         public int framesPerRow;
         public int frameRows;
@@ -23,22 +26,10 @@ namespace TableTopFury.Objects
 
         public abstract void LoadContent(ContentManager content);
 
-        public abstract void Update(GameTime gameTime);
+        public abstract void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects);        
 
+        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics);
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(
-                 texture,
-                 position,
-                 sourceRectangle,
-                 Color.White,
-                 0f,
-                 new Vector2(texture.Width / (framesPerRow * 2), texture.Height / (frameRows * 2)),
-                 Vector2.One,
-                 SpriteEffects.None,
-                 0f
-             );
-        }
+        public abstract bool IsCollisionPoint(Vector2 point);
     }
 }

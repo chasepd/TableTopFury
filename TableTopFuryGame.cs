@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using TableTopFury.Objects;
 
 namespace TableTopFury
@@ -12,13 +13,14 @@ namespace TableTopFury
         private SpriteBatch _spriteBatch;
 
         Ball ball;
+        List<TTFObject> _objects;
 
         public TableTopFuryGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            ball = new RegularBall();
+            _objects = new List<TTFObject>() { new RegularBall(), new PlayerPaddle()};            
         }
 
         protected override void Initialize()
@@ -27,8 +29,10 @@ namespace TableTopFury
 
             base.Initialize();
 
-            
-            ball.Initialize(_graphics);
+            foreach (TTFObject obj in _objects)
+            {
+                obj.Initialize(_graphics);
+            }                      
 
         }
 
@@ -36,8 +40,10 @@ namespace TableTopFury
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            ball.LoadContent(Content);
-            
+            foreach (TTFObject obj in _objects)
+            {
+                obj.LoadContent(Content);
+            }
             // TODO: use this.Content to load your game content here
         }
 
@@ -47,8 +53,10 @@ namespace TableTopFury
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            ball.Update(gameTime);
+            foreach (TTFObject obj in _objects)
+            {
+                obj.Update(gameTime, _graphics, _objects);
+            }
             base.Update(gameTime);
         }
 
@@ -58,7 +66,10 @@ namespace TableTopFury
             
 
             _spriteBatch.Begin();
-            ball.Draw(gameTime, _spriteBatch);
+            foreach (TTFObject obj in _objects)
+            {
+                obj.Draw(gameTime, _spriteBatch, _graphics);
+            }
             _spriteBatch.End();
 
             // TODO: Add your drawing code here
