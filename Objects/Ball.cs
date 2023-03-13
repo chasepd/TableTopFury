@@ -12,6 +12,8 @@ namespace TableTopFury.Objects
     {
         private double _explosionTimeTracker;
         private double _rotationTimeTracker;
+        private int _preferredBackBufferWidth;
+        private int _preferredBackBufferHeight;
         protected bool isExploding;
         const float scaleModifier = 1f;
         const int ballSizeModifier = (int)(scaleModifier * 7);
@@ -25,6 +27,10 @@ namespace TableTopFury.Objects
             isExploding = false;
             rotation = 0;
             speedX = 5;
+            if (new Random().Next(1, 3) == 2)
+            {
+                speedX *= -1;
+            }
             speedY = 1;
         }
 
@@ -43,7 +49,11 @@ namespace TableTopFury.Objects
         public override void Initialize(GraphicsDeviceManager graphics)
         {
             position = new Vector2((graphics.PreferredBackBufferWidth / 2) + ballSizeModifier,
-               graphics.PreferredBackBufferHeight / 2 + ballSizeModifier);            
+               graphics.PreferredBackBufferHeight / 2 + ballSizeModifier); 
+            
+            _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
+            _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
+
         }
 
         public void Explode()
@@ -54,7 +64,14 @@ namespace TableTopFury.Objects
 
         private Rectangle GetCollisionBoundaries()
         {
-            return new Rectangle((int)position.X - ballSizeModifier + (3 * (int)scaleModifier), (int)position.Y - ballSizeModifier, ballSizeModifier, ballSizeModifier);
+            if (position.X < _preferredBackBufferWidth / 2)
+            {
+                return new Rectangle((int)position.X - ballSizeModifier + (3 * (int)scaleModifier), (int)position.Y - ballSizeModifier, ballSizeModifier, ballSizeModifier);
+            }
+            else
+            {
+                return new Rectangle((int)position.X - ballSizeModifier - (3 * (int)scaleModifier), (int)position.Y - ballSizeModifier, ballSizeModifier, ballSizeModifier);
+            }
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
@@ -78,31 +95,22 @@ namespace TableTopFury.Objects
             {
                 if (position.X > graphics.PreferredBackBufferWidth - ballSizeModifier)
                 {
-                    position.X = graphics.PreferredBackBufferWidth - ballSizeModifier;
-                    speedX += new Random().Next(-1, 1);
-                    speedY += new Random().Next(-1, 1);
-                    speedX *= -1;
+                    Explode();
                 }
                 if (position.X < ballSizeModifier)
                 {
-                    Explode();
-                    //position.X = ballSizeModifier;
-                    //speedX += new Random().Next(-1, 1);
-                    //speedY += new Random().Next(-1, 1);
-                    //speedX *= -1;                 
+                    Explode();         
                 }
 
                 if (position.Y > graphics.PreferredBackBufferHeight - ballSizeModifier)
                 {
                     position.Y = graphics.PreferredBackBufferHeight - ballSizeModifier;
-                    speedX += new Random().Next(-1, 1);
                     speedY += new Random().Next(-1, 1);
                     speedY *= -1;
                 }
                 if (position.Y < ballSizeModifier)
                 {
                     position.Y = ballSizeModifier;
-                    speedX += new Random().Next(-1, 1);
                     speedY += new Random().Next(-1, 1);
                     speedY *= -1;
                 }
@@ -160,6 +168,12 @@ namespace TableTopFury.Objects
                 animationFrame = 1;
                 position = new Vector2(graphics.PreferredBackBufferWidth / 2,
                  graphics.PreferredBackBufferHeight / 2);
+                speedX = 5;
+                speedY = 1;
+                if (new Random().Next(1, 3) == 2)
+                {
+                    speedX *= -1;
+                }
             }
         }
 

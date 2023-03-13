@@ -18,7 +18,7 @@ namespace TableTopFury
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _objects = new List<TTFObject>() {new PlayerPaddle(), new RegularBall()};            
+            _objects = new List<TTFObject>() { new PlayerPaddle(1), new PlayerPaddle(2), new RegularBall()};            
         }
 
         protected override void Initialize()

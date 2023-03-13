@@ -21,7 +21,7 @@ namespace TableTopFury.Objects
         const int paddleHeightModifier = (int)(scaleModifier * 24);
         const int paddleWidthModifier = (int)(scaleModifier * 8);
         private const double _speedChangeDelay = 0.05;
-        public PlayerPaddle() : base() 
+        public PlayerPaddle(int playerNumber) : base() 
         {
             animationFrame = 1;
             frameRows = 1;
@@ -29,19 +29,80 @@ namespace TableTopFury.Objects
             _animateTimeTracker = 0.0;
             speedX = 0;
             speedY = 0;
-            absoluteSpeed = 14;
+            absoluteSpeed = 15;
             speedStep = 2;
-            
+            if (playerNumber > 2 || playerNumber < 1)
+            {
+                throw new ArgumentOutOfRangeException("playerNumber value of " + playerNumber + " was outside of expected range. Valid values are 1 or 2.");
+            }
+            this.playerNumber = playerNumber;
         }
 
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            position = new Vector2(0 + paddleWidthModifier + 10, graphics.PreferredBackBufferHeight / 2);
+            if (playerNumber == 1)
+            {
+                position = new Vector2(0 + paddleWidthModifier + 10, graphics.PreferredBackBufferHeight / 2);
+            }
+            else
+            {
+                position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10), graphics.PreferredBackBufferHeight / 2);
+            }
         }
 
         public override void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("BasicPaddle");
+        }
+
+        private void UpwardMovement()
+        {
+            if (_speedChangeTimeTracker > _speedChangeDelay)
+            {
+                speedY -= speedStep;
+                if (speedY < -1 * absoluteSpeed)
+                {
+                    speedY = -1 * absoluteSpeed;
+                }
+                _speedChangeTimeTracker = 0;
+            }
+        }
+
+        private void DownwardMovement()
+        {
+            if (_speedChangeTimeTracker > _speedChangeDelay)
+            {
+                speedY += speedStep;
+                if (speedY > absoluteSpeed)
+                {
+                    speedY = absoluteSpeed;
+                }
+                _speedChangeTimeTracker = 0;
+            }
+        }
+
+        private void SlowToStop()
+        {
+            if (_speedChangeTimeTracker > _speedChangeDelay)
+            {
+                if (speedY > 0)
+                {
+                    speedY -= speedStep;
+                    if (speedY < 0)
+                    {
+                        speedY = 0;
+                    }
+                }
+                if (speedY < 0)
+                {
+                    speedY += speedStep;
+                    if (speedY > 0)
+                    {
+                        speedY = 0;
+                    }
+                }
+                _speedChangeTimeTracker = 0;
+            }
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
@@ -50,52 +111,34 @@ namespace TableTopFury.Objects
             _speedChangeTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
 
             var kstate = Keyboard.GetState();
-
-            if (kstate.IsKeyDown(Keys.W))
+            if (playerNumber == 1)
             {
-                if (_speedChangeTimeTracker > _speedChangeDelay)
+                if (kstate.IsKeyDown(Keys.W))
                 {
-                    speedY -= speedStep;
-                    if (speedY < -1 * absoluteSpeed)
-                    {
-                        speedY = -1 * absoluteSpeed;
-                    }
-                    _speedChangeTimeTracker = 0;
+                    UpwardMovement();                      
                 }
-            }
-            else if (kstate.IsKeyDown(Keys.S))
-            {
-                if (_speedChangeTimeTracker > _speedChangeDelay)
+                else if (kstate.IsKeyDown(Keys.S))
                 {
-                    speedY += speedStep;
-                    if (speedY > absoluteSpeed)
-                    {
-                        speedY = absoluteSpeed;
-                    }
-                    _speedChangeTimeTracker = 0;
+                    DownwardMovement();
+                }
+                else
+                {
+                    SlowToStop();
                 }
             }
             else
             {
-                if (_speedChangeTimeTracker > _speedChangeDelay)
+                if (kstate.IsKeyDown(Keys.Up))
                 {
-                    if (speedY > 0)
-                    {
-                        speedY -= speedStep;
-                        if (speedY < 0)
-                        {
-                            speedY = 0;
-                        }
-                    }
-                    if (speedY < 0)
-                    {
-                        speedY += speedStep;
-                        if (speedY > 0)
-                        {
-                            speedY = 0;
-                        }
-                    }
-                    _speedChangeTimeTracker = 0;
+                    UpwardMovement();
+                }
+                else if (kstate.IsKeyDown(Keys.Down))
+                {
+                    DownwardMovement();
+                }
+                else
+                {
+                    SlowToStop();
                 }
             }
 
