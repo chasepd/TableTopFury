@@ -15,8 +15,9 @@ namespace TableTopFury.Objects
         const float scaleModifier = 2f;
         private double _animateTimeTracker;
         private double _speedChangeTimeTracker;
-        private int absoluteSpeed = 14;
-        private int speedStep = 2;
+        private int absoluteSpeed;
+        private int speedStep;
+        private int playerNumber;
         const int paddleHeightModifier = (int)(scaleModifier * 24);
         const int paddleWidthModifier = (int)(scaleModifier * 8);
         private const double _speedChangeDelay = 0.05;
@@ -28,6 +29,9 @@ namespace TableTopFury.Objects
             _animateTimeTracker = 0.0;
             speedX = 0;
             speedY = 0;
+            absoluteSpeed = 14;
+            speedStep = 2;
+            
         }
 
         public override void Initialize(GraphicsDeviceManager graphics)
