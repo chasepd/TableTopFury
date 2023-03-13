@@ -12,11 +12,14 @@ namespace TableTopFury.Objects
 {
     internal class PlayerPaddle : Paddle
     {
-        const float scaleModifier = 3f;
+        const float scaleModifier = 2f;
         private double _animateTimeTracker;
-        private int absoluteSpeed = 10;        
+        private double _speedChangeTimeTracker;
+        private int absoluteSpeed = 14;
+        private int speedStep = 2;
         const int paddleHeightModifier = (int)(scaleModifier * 24);
         const int paddleWidthModifier = (int)(scaleModifier * 8);
+        private const double _speedChangeDelay = 0.05;
         public PlayerPaddle() : base() 
         {
             animationFrame = 1;
@@ -29,7 +32,7 @@ namespace TableTopFury.Objects
 
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            position = new Vector2(0 + paddleWidthModifier, graphics.PreferredBackBufferHeight / 2);
+            position = new Vector2(0 + paddleWidthModifier + 10, graphics.PreferredBackBufferHeight / 2);
         }
 
         public override void LoadContent(ContentManager content)
@@ -40,20 +43,56 @@ namespace TableTopFury.Objects
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
         {
             _animateTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+            _speedChangeTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
 
             var kstate = Keyboard.GetState();
 
             if (kstate.IsKeyDown(Keys.W))
             {
-                speedY = -1 * absoluteSpeed;
+                if (_speedChangeTimeTracker > _speedChangeDelay)
+                {
+                    speedY -= speedStep;
+                    if (speedY < -1 * absoluteSpeed)
+                    {
+                        speedY = -1 * absoluteSpeed;
+                    }
+                    _speedChangeTimeTracker = 0;
+                }
             }
             else if (kstate.IsKeyDown(Keys.S))
             {
-                speedY = absoluteSpeed; 
+                if (_speedChangeTimeTracker > _speedChangeDelay)
+                {
+                    speedY += speedStep;
+                    if (speedY > absoluteSpeed)
+                    {
+                        speedY = absoluteSpeed;
+                    }
+                    _speedChangeTimeTracker = 0;
+                }
             }
             else
             {
-                speedY = 0;
+                if (_speedChangeTimeTracker > _speedChangeDelay)
+                {
+                    if (speedY > 0)
+                    {
+                        speedY -= speedStep;
+                        if (speedY < 0)
+                        {
+                            speedY = 0;
+                        }
+                    }
+                    if (speedY < 0)
+                    {
+                        speedY += speedStep;
+                        if (speedY > 0)
+                        {
+                            speedY = 0;
+                        }
+                    }
+                    _speedChangeTimeTracker = 0;
+                }
             }
 
             position.Y += speedY;
@@ -62,11 +101,13 @@ namespace TableTopFury.Objects
             if (position.Y < 0 + paddleHeightModifier)
             {
                 position.Y = 0 + paddleHeightModifier;
+                speedY = 0;
             }
 
             if (position.Y > graphics.PreferredBackBufferHeight - paddleHeightModifier)
             {
                 position.Y = graphics.PreferredBackBufferHeight - paddleHeightModifier;
+                speedY = 0;
             }
 
             if (_animateTimeTracker > .4)

@@ -13,7 +13,7 @@ namespace TableTopFury.Objects
         private double _explosionTimeTracker;
         private double _rotationTimeTracker;
         protected bool isExploding;
-        const float scaleModifier = 2f;
+        const float scaleModifier = 1f;
         const int ballSizeModifier = (int)(scaleModifier * 7);
         public Ball() 
         {
