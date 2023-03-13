@@ -97,13 +97,11 @@ namespace TableTopFury.Objects
                 );
         }
 
-        public override bool IsCollisionPoint(Vector2 point, Vector2 size)
+        public override bool IsCollisionPoint(Rectangle other)
         {
-            if (point.X > position.X && point.X < position.X + (2 * paddleWidthModifier) && point.Y > position.Y && point.Y < position.Y + (2 * paddleHeightModifier) )
-            {
-                return true;
-            }
-            return false;
+            Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, paddleWidthModifier * 2, paddleHeightModifier * 2);
+
+            return thisSprite.Intersects(other);
         }
     }
 }

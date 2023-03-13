@@ -14,7 +14,7 @@ namespace TableTopFury.Objects
         private double _rotationTimeTracker;
         protected bool isExploding;
         const float scaleModifier = 2f;
-        const int ballSizeModifier = (int)(scaleModifier * 8);
+        const int ballSizeModifier = (int)(scaleModifier * 7);
         public Ball() 
         {
             animationFrame = 1;
@@ -42,14 +42,19 @@ namespace TableTopFury.Objects
 
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            position = new Vector2(graphics.PreferredBackBufferWidth / 2,
-               graphics.PreferredBackBufferHeight / 2);            
+            position = new Vector2((graphics.PreferredBackBufferWidth / 2) + ballSizeModifier,
+               graphics.PreferredBackBufferHeight / 2 + ballSizeModifier);            
         }
 
         public void Explode()
         {
             isExploding = true;
             rotation = 0;
+        }
+
+        private Rectangle GetCollisionBoundaries()
+        {
+            return new Rectangle((int)position.X - ballSizeModifier + (3 * (int)scaleModifier), (int)position.Y - ballSizeModifier, ballSizeModifier, ballSizeModifier);
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
@@ -106,7 +111,7 @@ namespace TableTopFury.Objects
                 {
                     if (obj != this)
                     {
-                        if (obj.IsCollisionPoint(new Vector2(position.X + ballSizeModifier, position.Y + ballSizeModifier), new Vector2(ballSizeModifier * 2, ballSizeModifier * 2)))
+                        if (obj.IsCollisionPoint(GetCollisionBoundaries()))
                         {
                             speedX += new Random().Next(-1, 1);
                             speedY += new Random().Next(-1, 1);
@@ -121,7 +126,7 @@ namespace TableTopFury.Objects
                 _rotationTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_rotationTimeTracker >= 0.05 && !isExploding)
                 {
-                    rotation += speedX;
+                    rotation += speedX + speedY;
                     _rotationTimeTracker = 0;
                 }
                 
@@ -148,7 +153,7 @@ namespace TableTopFury.Objects
                  scaleModifier,
                  SpriteEffects.None,
                  0f
-                );
+                );                
             }
             else
             {
@@ -158,9 +163,9 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override bool IsCollisionPoint(Vector2 point, Vector2 size)
-        {
-            throw new NotImplementedException();
+        public override bool IsCollisionPoint(Rectangle other)
+        {          
+            return GetCollisionBoundaries().Intersects(other);
         }
     }
 }
