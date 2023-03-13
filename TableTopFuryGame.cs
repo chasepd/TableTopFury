@@ -11,8 +11,6 @@ namespace TableTopFury
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
-        Ball ball;
         List<TTFObject> _objects;
 
         public TableTopFuryGame()
