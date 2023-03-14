@@ -29,7 +29,7 @@ namespace TableTopFury.Objects
             _animateTimeTracker = 0.0;
             speedX = 0;
             speedY = 0;
-            absoluteSpeed = 15;
+            absoluteSpeed = 8;
             speedStep = 2;
             if (playerNumber > 2 || playerNumber < 1)
             {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ namespace TableTopFury.Objects
         protected bool isExploding;
         const float scaleModifier = 1f;
         const int ballSizeModifier = (int)(scaleModifier * 7);
+        protected ContentManager _contentManager;
+        public Texture2D explosionTexture;
+        public Texture2D ballTexture;
         public Ball() 
         {
             animationFrame = 1;
@@ -54,12 +58,19 @@ namespace TableTopFury.Objects
             _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
             _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
 
-        }
+        }        
 
         public void Explode()
         {
+            texture = explosionTexture;
             isExploding = true;
             rotation = 0;
+            framesPerRow = 14;
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            _contentManager = content;
         }
 
         private Rectangle GetCollisionBoundaries()
@@ -86,9 +97,11 @@ namespace TableTopFury.Objects
                     animationFrame += 1;
                     _explosionTimeTracker = 0.0;
                 }
-                if (animationFrame == 13) 
+                if (animationFrame == 14) 
                 {                   
                     isExploding = false;
+                    texture = ballTexture;
+                    framesPerRow = 13;
                 }
             }
             else
@@ -144,12 +157,12 @@ namespace TableTopFury.Objects
             {
                 rotation = 0;
             }
-            sourceRectangle = new Rectangle((texture.Width / 13) * (animationFrame - 1), 0, texture.Width / 13, texture.Height);
+            sourceRectangle = new Rectangle((texture.Width / framesPerRow) * (animationFrame - 1), 0, texture.Width / framesPerRow, texture.Height);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
-            if (animationFrame < 13 || isExploding)
+            if (animationFrame < framesPerRow || isExploding)
             {
                 spriteBatch.Draw(
                  texture,
