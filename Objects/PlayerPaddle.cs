@@ -12,15 +12,16 @@ namespace TableTopFury.Objects
 {
     internal class PlayerPaddle : Paddle
     {
-        const float scaleModifier = 1f;
+        const float scaleModifier = 2f;
         private double _animateTimeTracker;
         private double _speedChangeTimeTracker;
         private int absoluteSpeed;
         private int speedStep;
+        private int boostStep;
         private int playerNumber;
         const int paddleHeightModifier = (int)(scaleModifier * 24);
         const int paddleWidthModifier = (int)(scaleModifier * 8);
-        private const double _speedChangeDelay = 0.05;
+        private const double _speedChangeDelay = 0.12;
         public PlayerPaddle(int playerNumber) : base() 
         {
             animationFrame = 1;
@@ -29,8 +30,9 @@ namespace TableTopFury.Objects
             _animateTimeTracker = 0.0;
             speedX = 0;
             speedY = 0;
-            absoluteSpeed = 20;
+            absoluteSpeed = 40;
             speedStep = 2;
+            boostStep = 5;
             if (playerNumber > 2 || playerNumber < 1)
             {
                 throw new ArgumentOutOfRangeException("playerNumber value of " + playerNumber + " was outside of expected range. Valid values are 1 or 2.");
@@ -55,11 +57,18 @@ namespace TableTopFury.Objects
             texture = content.Load<Texture2D>("BasicPaddle");
         }
 
-        private void UpwardMovement()
+        private void UpwardMovement(bool boost)
         {
             if (_speedChangeTimeTracker > _speedChangeDelay)
             {
-                speedY -= speedStep;
+                if (!boost)
+                {
+                    speedY -= speedStep;
+                }
+                else
+                {
+                    speedY -= boostStep;
+                }
                 if (speedY < -1 * absoluteSpeed)
                 {
                     speedY = -1 * absoluteSpeed;
@@ -68,11 +77,18 @@ namespace TableTopFury.Objects
             }
         }
 
-        private void DownwardMovement()
+        private void DownwardMovement(bool boost)
         {
             if (_speedChangeTimeTracker > _speedChangeDelay)
             {
-                speedY += speedStep;
+                if (!boost)
+                {
+                    speedY += speedStep;
+                }
+                else
+                {
+                    speedY += boostStep;
+                }
                 if (speedY > absoluteSpeed)
                 {
                     speedY = absoluteSpeed;
@@ -115,11 +131,11 @@ namespace TableTopFury.Objects
             {
                 if (kstate.IsKeyDown(Keys.W))
                 {
-                    UpwardMovement();                      
+                    UpwardMovement(kstate.IsKeyDown(Keys.LeftShift));                      
                 }
                 else if (kstate.IsKeyDown(Keys.S))
                 {
-                    DownwardMovement();
+                    DownwardMovement(kstate.IsKeyDown(Keys.LeftShift));
                 }
                 else
                 {
@@ -130,11 +146,11 @@ namespace TableTopFury.Objects
             {
                 if (kstate.IsKeyDown(Keys.Up))
                 {
-                    UpwardMovement();
+                    UpwardMovement(kstate.IsKeyDown(Keys.RightShift));
                 }
                 else if (kstate.IsKeyDown(Keys.Down))
                 {
-                    DownwardMovement();
+                    DownwardMovement(kstate.IsKeyDown(Keys.RightShift));
                 }
                 else
                 {
