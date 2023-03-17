@@ -30,6 +30,6 @@ namespace TableTopFury.Objects
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics);
 
-        public abstract bool IsCollisionPoint(Rectangle other);
+        public abstract int IsCollisionPoint(Rectangle other);
     }
 }

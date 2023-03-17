@@ -183,13 +183,51 @@ namespace TableTopFury.Objects
                  SpriteEffects.None,
                  0f
                 );
+
+            //Texture2D _texture;
+
+            //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            //_texture.SetData(new Color[] { Color.Red });
+
+            //spriteBatch.Draw(_texture, new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, paddleWidthModifier * 2, paddleHeightModifier * 2), Color.White);
         }
 
-        public override bool IsCollisionPoint(Rectangle other)
+        public override int IsCollisionPoint(Rectangle other)
         {
             Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, paddleWidthModifier * 2, paddleHeightModifier * 2);
 
-            return thisSprite.Intersects(other);
+            if(thisSprite.Intersects(other))
+            {
+
+                if (Math.Abs(other.Top - thisSprite.Bottom) < 10 && Math.Abs(other.Center.X - thisSprite.Center.X) < other.Width)
+                {
+                    //Signal a speed direction reversal
+                    return -1000;
+                }
+                else if (Math.Abs(other.Center.X - thisSprite.Center.X) > (0.5 * other.Width) && other.Center.Y - thisSprite.Center.Y < 0 &&
+                    Math.Abs(other.Center.Y - thisSprite.Center.Y) < thisSprite.Height / 4)
+                {
+                    return -1;
+                }
+                else if ((Math.Abs(other.Center.X - thisSprite.Center.X) > (0.5 * other.Width) && other.Center.Y - thisSprite.Center.Y < 0 &&
+                    Math.Abs(other.Center.Y - thisSprite.Center.Y) > thisSprite.Height / 4))
+                {
+                    return -2;
+                }
+                else if (Math.Abs(other.Center.X - thisSprite.Center.X) > (0.5 * other.Width) && other.Center.Y - thisSprite.Center.Y > 0 &&
+                    Math.Abs(other.Center.Y - thisSprite.Center.Y) < thisSprite.Height / 4)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
