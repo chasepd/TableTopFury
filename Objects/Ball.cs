@@ -16,7 +16,7 @@ namespace TableTopFury.Objects
         private double _rotationTimeTracker;
         private int _preferredBackBufferWidth;
         private int _preferredBackBufferHeight;
-        protected bool isExploding;
+        public bool isExploding;
         const float scaleModifier = 1f;
         const int explodeFrames = 14;
         const int ballFrames = 4;
@@ -240,6 +240,24 @@ namespace TableTopFury.Objects
             else
             {
                 return 0;
+            }
+        }
+
+        public abstract int DamageValue();
+
+        public int GetPlayerDamaged()
+        {
+            if (!isExploding)
+            {
+                return 0;
+            }
+            else if (position.X > _preferredBackBufferWidth - ((texture.Width / framesPerRow) / 2))
+            {
+                return 2;
+            }
+            else
+            {
+                return 1;
             }
         }
     }

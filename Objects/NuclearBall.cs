@@ -20,5 +20,10 @@ namespace TableTopFury.Objects
             explosionTexture = _contentManager.Load<Texture2D>("Explosion");
             texture = ballTexture;
         }
+
+        public override int DamageValue()
+        {
+            return 2;
+        }
     }
 }

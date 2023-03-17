@@ -21,7 +21,7 @@ namespace TableTopFury.Objects
         private int playerNumber;
         const int paddleHeightModifier = (int)(scaleModifier * 24);
         const int paddleWidthModifier = (int)(scaleModifier * 8);
-        private const double _speedChangeDelay = 0.12;
+        private const double _speedChangeDelay = 0.02;
         public PlayerPaddle(int playerNumber) : base() 
         {
             animationFrame = 1;
@@ -31,7 +31,7 @@ namespace TableTopFury.Objects
             speedX = 0;
             speedY = 0;
             absoluteSpeed = 40;
-            speedStep = 2;
+            speedStep = 1;
             boostStep = 5;
             if (playerNumber > 2 || playerNumber < 1)
             {
