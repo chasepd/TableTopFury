@@ -12,7 +12,7 @@ namespace TableTopFury.Objects
 {
     internal class PlayerPaddle : Paddle
     {
-        const float scaleModifier = 2f;
+        const float scaleModifier = 1f;
         private double _animateTimeTracker;
         private double _speedChangeTimeTracker;
         private int absoluteSpeed;
@@ -29,7 +29,7 @@ namespace TableTopFury.Objects
             _animateTimeTracker = 0.0;
             speedX = 0;
             speedY = 0;
-            absoluteSpeed = 8;
+            absoluteSpeed = 20;
             speedStep = 2;
             if (playerNumber > 2 || playerNumber < 1)
             {

@@ -163,7 +163,14 @@ namespace TableTopFury.Objects
                         else if (collisionResult != 0)
                         {
                             speedY += collisionResult;
-                            speedX *= Math.Abs(collisionResult) * -1;
+                            speedX *= -1;
+                            if (speedX > 0) {
+                                speedX += Math.Abs(collisionResult) - 1;
+                            }
+                            if (speedX < 0)
+                            {
+                                speedX -= Math.Abs(collisionResult) - 1;
+                            }
                         }
                     }
                 }
