@@ -25,6 +25,24 @@
 /processorParam:TextureFormat=Color
 /build:BasicPaddle.png
 
+#begin BattleMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BattleMusic.mp3
+
+#begin clink1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:clink1.wav
+
+#begin clink2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:clink2.wav
+
 #begin Explosion.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -36,6 +54,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Explosion.png
+
+#begin ExplosionSound.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ExplosionSound.mp3
 
 #begin Life.png
 /importer:TextureImporter
@@ -96,4 +120,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:RegularBall.png
+
+#begin thud2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:thud2.wav
+
+#begin thud3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:thud3.wav
 

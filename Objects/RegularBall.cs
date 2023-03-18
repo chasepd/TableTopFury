@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,11 @@ namespace TableTopFury.Objects
             ballTexture = content.Load<Texture2D>("RegularBall");
             explosionTexture = _contentManager.Load<Texture2D>("Explosion");
             texture = ballTexture;
+            _explosionSound = _contentManager.Load<SoundEffect>("ExplosionSound");
+            _contactSounds.Add(_contentManager.Load<SoundEffect>("clink1"));
+            _contactSounds.Add(_contentManager.Load<SoundEffect>("clink2"));
+            _contactSounds.Add(_contentManager.Load<SoundEffect>("thud2"));
+            _contactSounds.Add(_contentManager.Load<SoundEffect>("thud3"));
         }
 
         public override int DamageValue()

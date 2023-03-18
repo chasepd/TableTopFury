@@ -12,15 +12,15 @@ namespace TableTopFury.Objects
 {
     internal class PlayerPaddle : Paddle
     {
-        const float scaleModifier = 2f;
+        const float scaleModifier = .25f;
         private double _animateTimeTracker;
         private double _speedChangeTimeTracker;
         private int absoluteSpeed;
         private int speedStep;
         private int boostStep;
         private int playerNumber;
-        const int paddleHeightModifier = (int)(scaleModifier * 24);
-        const int paddleWidthModifier = (int)(scaleModifier * 8);
+        const int paddleHeightModifier = (int)(scaleModifier * 192);
+        const int paddleWidthModifier = (int)(scaleModifier * 64);
         private const double _speedChangeDelay = 0.02;
         public PlayerPaddle(int playerNumber) : base() 
         {

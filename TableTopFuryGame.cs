@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using TableTopFury.Objects;
@@ -24,6 +25,7 @@ namespace TableTopFury
         private int _messageFrame;
         private double _messsageAnimationTimer;
         private const int maxMessageFrames = 2;
+        private Song _battleTheme;
 
         public TableTopFuryGame()
         {
@@ -68,6 +70,10 @@ namespace TableTopFury
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _playerOneWinsTexture = Content.Load<Texture2D>("Player1Win");
             _playerTwoWinsTexture = Content.Load<Texture2D>("Player2Win");
+            _battleTheme = Content.Load<Song>("BattleMusic");
+
+            MediaPlayer.Play(_battleTheme);
+            MediaPlayer.IsRepeating = true;
 
             foreach (TTFObject obj in _collisionObjects)
             {

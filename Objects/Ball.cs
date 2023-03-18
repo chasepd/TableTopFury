@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -23,6 +24,8 @@ namespace TableTopFury.Objects
         protected ContentManager _contentManager;
         public Texture2D explosionTexture;
         public Texture2D ballTexture;
+        protected SoundEffect _explosionSound;
+        protected List<SoundEffect> _contactSounds;
         public Ball() 
         {
             animationFrame = 1;
@@ -38,7 +41,7 @@ namespace TableTopFury.Objects
                 speedX *= -1;
             }
             speedY = new Random().Next(-1, 2);
-            
+            _contactSounds = new List<SoundEffect>();
         }
 
         public Ball(Ball previous)
@@ -51,6 +54,7 @@ namespace TableTopFury.Objects
             framesPerRow = ballFrames;
             isExploding = false;
             rotation = previous.rotation;
+            _contactSounds = new List<SoundEffect>();
         }
 
         public override void Initialize(GraphicsDeviceManager graphics)
@@ -69,6 +73,7 @@ namespace TableTopFury.Objects
             isExploding = true;
             rotation = 0;
             framesPerRow = explodeFrames;
+            _explosionSound.CreateInstance().Play();
         }
 
         public override void LoadContent(ContentManager content)
@@ -171,6 +176,8 @@ namespace TableTopFury.Objects
                             {
                                 speedX -= Math.Abs(collisionResult) - 1;
                             }
+                            SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
+                            _contactSound.CreateInstance().Play();
                         }
                     }
                 }
