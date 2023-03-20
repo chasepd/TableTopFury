@@ -13,7 +13,7 @@ namespace TableTopFury.Objects
     {        
         public SinglePlayerMenuItem() : base()
         {
-            _menuPosition = 4;
+            _menuPosition = 6;
         }
 
         public override void LoadContent(ContentManager content)

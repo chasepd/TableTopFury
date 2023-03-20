@@ -167,5 +167,10 @@ namespace TableTopFury.Objects
                 );
             }
         }
+
+        public override Mode CheckForModeChange()
+        {
+            return null;
+        }
     }
 }

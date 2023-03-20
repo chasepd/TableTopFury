@@ -12,7 +12,7 @@ namespace TableTopFury.Objects
     {
         public VersusMenuItem() : base()
         {
-            _menuPosition = 5;
+            _menuPosition = 7;
         }
 
         public override void LoadContent(ContentManager content)

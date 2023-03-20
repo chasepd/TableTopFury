@@ -99,6 +99,15 @@ namespace TableTopFury
 
             _currentMode.Update(gameTime, _graphics);
 
+            Mode _nextMode = _currentMode.CheckForModeChange();
+
+            if(_nextMode != null)
+            {
+                _currentMode = _nextMode;                
+                _currentMode.LoadContent(Content);
+                _currentMode.Initialize(_graphics);
+            }
+
             //foreach (TTFObject obj in _uiObjects)
             //{
             //    obj.Update(gameTime, _graphics, _collisionObjects);

@@ -55,5 +55,7 @@ namespace TableTopFury
                 obj.Draw(gameTime, spriteBatch, graphics);
             }
         }
+
+        public abstract Mode CheckForModeChange();
     }
 }

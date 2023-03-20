@@ -60,7 +60,7 @@ namespace TableTopFury.Objects
                 animationFrame = 1;
             }
 
-            sourceRectangle = new Rectangle(0 + (texture.Width / framesPerRow * (animationFrame - 1)), 0, texture.Width / framesPerRow, texture.Height / frameRows);
+            sourceRectangle = new Rectangle(0 + ((texture.Width / framesPerRow  + 1) * (animationFrame - 1)), 0, texture.Width / framesPerRow, texture.Height / frameRows);
         }
 
         public abstract Mode CheckForNextScreen();
