@@ -66,7 +66,8 @@ namespace TableTopFury.Objects
                 {
                     position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10), graphics.PreferredBackBufferHeight / 2);
                 }
-            }
+            }            
+
         }
 
         public override void LoadContent(ContentManager content)
