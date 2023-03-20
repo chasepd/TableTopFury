@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace TableTopFury.Objects
         protected List<MainMenuItem> _menuItems;
         protected const double _selectionTimeDelay = 0.05;
         protected Mode _nextMode;
+        protected Song _menuTheme;
         public MainMenuMode() : base()
         {
             _selectedItem = 0;
@@ -27,6 +30,15 @@ namespace TableTopFury.Objects
                 AddOnscreenObject(item);
             }
             _menuItems[_selectedItem].Select();
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            _menuTheme = content.Load<Song>("MenuLoop");
+
+            MediaPlayer.Play(_menuTheme);
+            MediaPlayer.IsRepeating = true;
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)

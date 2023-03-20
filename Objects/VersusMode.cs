@@ -16,8 +16,6 @@ namespace TableTopFury.Objects
         private LifeBar _player1LifeBar;
         private LifeBar _player2LifeBar;
         private Dictionary<int, LifeBar> _lifeBars;
-        List<TTFObject> _collisionObjects;
-        List<TTFObject> _uiObjects;
         Dictionary<Ball, bool> _ballExplosionTracker;
         bool gameEnded = false;
         private int _losingPlayer;
@@ -26,7 +24,7 @@ namespace TableTopFury.Objects
         private int _messageFrame;
         private double _messsageAnimationTimer;
         private const int maxMessageFrames = 2;
-        private Song _battleTheme;
+        private List<Song> _battleThemes;
 
         public VersusMode() 
         {
@@ -38,12 +36,18 @@ namespace TableTopFury.Objects
             _lifeBars[2] = _player2LifeBar;
             Ball ball = new RegularBall();
             _ballExplosionTracker[ball] = false;
-            _uiObjects = new List<TTFObject>() { _player1LifeBar, _player2LifeBar };
-            _collisionObjects = new List<TTFObject>() { new PlayerPaddle(1), new PlayerPaddle(2), ball };
+            AddOnscreenObject(_player1LifeBar);
+            AddOnscreenObject(_player2LifeBar);
+            AddOnscreenObject(new PlayerPaddle(1));
+            AddOnscreenObject(new PlayerPaddle(2));
+            AddOnscreenObject(ball);
+            // _uiObjects = new List<UIElement>() { ,  };
+            //_collisionObjects = new List<TTFObject>() { new PlayerPaddle(1), new PlayerPaddle(2), ball };
             gameEnded = false;
             _losingPlayer = 0;
             _messageFrame = 1;
             _messsageAnimationTimer = 0.0;
+            _battleThemes = new List<Song>();
         }
         public override void Initialize(GraphicsDeviceManager graphics)
         {
@@ -64,9 +68,12 @@ namespace TableTopFury.Objects
             base.LoadContent(content);
             _playerOneWinsTexture = content.Load<Texture2D>("Player1Win");
             _playerTwoWinsTexture = content.Load<Texture2D>("Player2Win");
-            _battleTheme = content.Load<Song>("BattleMusic");
+            _battleThemes.Add(content.Load<Song>("FightLoop"));
+            _battleThemes.Add(content.Load<Song>("FightLoop2"));
+            _battleThemes.Add(content.Load<Song>("FightLoop3"));
+            _battleThemes.Add(content.Load<Song>("FightLoop4"));
 
-            MediaPlayer.Play(_battleTheme);
+            MediaPlayer.Play(_battleThemes[new Random().Next(0,_battleThemes.Count)]);
             MediaPlayer.IsRepeating = true;
 
             foreach (TTFObject obj in _collisionObjects)

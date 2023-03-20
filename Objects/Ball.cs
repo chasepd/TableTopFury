@@ -18,7 +18,7 @@ namespace TableTopFury.Objects
         private int _preferredBackBufferWidth;
         private int _preferredBackBufferHeight;
         public bool isExploding;
-        const float scaleModifier = 1f;
+        float scaleModifier;
         const int explodeFrames = 14;
         const int ballFrames = 4;
         protected ContentManager _contentManager;
@@ -65,6 +65,8 @@ namespace TableTopFury.Objects
             _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
             _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
 
+            scaleModifier = graphics.PreferredBackBufferHeight / 480;
+
         }        
 
         public void Explode()
@@ -74,6 +76,30 @@ namespace TableTopFury.Objects
             rotation = 0;
             framesPerRow = explodeFrames;
             _explosionSound.CreateInstance().Play();
+        }
+
+        private int GetLeftEdge(GraphicsDeviceManager graphics)
+        {
+            if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
+            {
+                return (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2;
+            }
+            else
+            {
+                return (int)(graphics.PreferredBackBufferWidth - (texture.Width * scaleModifier / framesPerRow / 2));
+            }
+        }
+
+        private int GetRightEdge(GraphicsDeviceManager graphics)
+        {
+            if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
+            {
+                return graphics.PreferredBackBufferWidth - (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2;
+            }
+            else
+            {
+                return (int)(graphics.PreferredBackBufferWidth - (texture.Width * scaleModifier / framesPerRow / 2));
+            }
         }
 
         public override void LoadContent(ContentManager content)
@@ -104,11 +130,12 @@ namespace TableTopFury.Objects
                     animationFrame += 1;
                     _explosionTimeTracker = 0.0;
                 }
-                if (animationFrame == explodeFrames) 
+                if (animationFrame > explodeFrames) 
                 {                   
                     isExploding = false;
                     texture = ballTexture;
                     framesPerRow = ballFrames;
+                    position = new Vector2(_preferredBackBufferWidth/2, _preferredBackBufferHeight/2);
                 }
             }
             else
@@ -120,11 +147,11 @@ namespace TableTopFury.Objects
                     _ballAnimateTimeTracker = 0.0;
                 } 
 
-                if (position.X > graphics.PreferredBackBufferWidth - ((texture.Width / framesPerRow) / 2))
+                if (position.X > GetRightEdge(graphics))
                 {
                     Explode();
                 }
-                if (position.X < ((texture.Width / framesPerRow) / 2))
+                if (position.X < GetLeftEdge(graphics))
                 {
                     Explode();         
                 }

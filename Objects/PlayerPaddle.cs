@@ -12,15 +12,15 @@ namespace TableTopFury.Objects
 {
     internal class PlayerPaddle : Paddle
     {
-        const float scaleModifier = .25f;
+        float scaleModifier;
         private double _animateTimeTracker;
         private double _speedChangeTimeTracker;
         private int absoluteSpeed;
         private int speedStep;
         private int boostStep;
         private int playerNumber;
-        const int paddleHeightModifier = (int)(scaleModifier * 192);
-        const int paddleWidthModifier = (int)(scaleModifier * 64);
+        int paddleHeightModifier;
+        int paddleWidthModifier;
         private const double _speedChangeDelay = 0.02;
         public PlayerPaddle(int playerNumber) : base() 
         {
@@ -42,13 +42,30 @@ namespace TableTopFury.Objects
 
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            if (playerNumber == 1)
+            scaleModifier = (float)(0.25 * graphics.PreferredBackBufferHeight / 480);
+            paddleWidthModifier = (int)(scaleModifier * 64);
+            paddleHeightModifier = (int)(scaleModifier * 192);
+            if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
             {
-                position = new Vector2(0 + paddleWidthModifier + 10, graphics.PreferredBackBufferHeight / 2);
+                if (playerNumber == 1)
+                {
+                    position = new Vector2(paddleWidthModifier + 10 + (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2, graphics.PreferredBackBufferHeight / 2);
+                }
+                else
+                {
+                    position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10) - (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2, graphics.PreferredBackBufferHeight / 2);
+                }
             }
-            else
+            else 
             {
-                position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10), graphics.PreferredBackBufferHeight / 2);
+                if (playerNumber == 1)
+                {
+                    position = new Vector2(paddleWidthModifier + 10, graphics.PreferredBackBufferHeight / 2);
+                }
+                else
+                {
+                    position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10), graphics.PreferredBackBufferHeight / 2);
+                }
             }
         }
 

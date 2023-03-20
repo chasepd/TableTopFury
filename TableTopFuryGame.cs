@@ -31,6 +31,10 @@ namespace TableTopFury
         public TableTopFuryGame()
         {
             _graphics = new GraphicsDeviceManager(this);
+            var displaymodes = GraphicsAdapter.DefaultAdapter.SupportedDisplayModes;
+            _graphics.PreferredBackBufferHeight = 1440;
+            _graphics.PreferredBackBufferWidth = 3440;
+            //_graphics.ToggleFullScreen();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             _currentMode = new MainMenuMode();
