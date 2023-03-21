@@ -162,13 +162,13 @@ namespace TableTopFury.Objects
             }
             else
             {
-                if (kstate.IsKeyDown(Keys.Up))
+                if (kstate.IsKeyDown(Keys.Up) || GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
                 {
-                    UpwardMovement(kstate.IsKeyDown(Keys.RightShift));
+                    UpwardMovement(kstate.IsKeyDown(Keys.RightShift) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed);
                 }
-                else if (kstate.IsKeyDown(Keys.Down))
+                else if (kstate.IsKeyDown(Keys.Down) || GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed)
                 {
-                    DownwardMovement(kstate.IsKeyDown(Keys.RightShift));
+                    DownwardMovement(kstate.IsKeyDown(Keys.RightShift) || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed);
                 }
                 else
                 {

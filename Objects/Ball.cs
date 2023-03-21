@@ -36,6 +36,7 @@ namespace TableTopFury.Objects
             isExploding = false;
             rotation = 0;
             speedX = 5;
+            speedX += new Random().Next(0, 10);
             if (new Random().Next(1, 3) == 2)
             {
                 speedX *= -1;
@@ -285,7 +286,7 @@ namespace TableTopFury.Objects
             {
                 return 0;
             }
-            else if (position.X > _preferredBackBufferWidth - ((texture.Width / framesPerRow) / 2))
+            else if (position.X > _preferredBackBufferWidth / 2)
             {
                 return 2;
             }
