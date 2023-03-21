@@ -186,7 +186,7 @@ namespace TableTopFury.Objects
 
                 foreach (TTFObject obj in objects)
                 {
-                    if (obj is Paddle)
+                    if (obj is Paddle || obj is Board)
                     {
                         int collisionResult = obj.IsCollisionPoint(GetCollisionBoundaries());
                         if (collisionResult == -1000)
@@ -242,7 +242,7 @@ namespace TableTopFury.Objects
                  new Vector2(texture.Width / (framesPerRow * 2), texture.Height / (frameRows * 2)),
                  scaleModifier,
                  SpriteEffects.None,
-                 0f
+                 0.2f
                 );
 
                 //Texture2D _texture;

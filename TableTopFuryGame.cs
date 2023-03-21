@@ -159,10 +159,10 @@ namespace TableTopFury
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LightGray);
+            GraphicsDevice.Clear(Color.DarkSlateGray);
             
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront);
             _currentMode.Draw(gameTime, _spriteBatch, _graphics);
             //foreach (TTFObject obj in _uiObjects)
             //{

@@ -25,7 +25,7 @@ namespace TableTopFury.Objects
         {
             if (_navigate)
             {
-                throw new NotImplementedException();
+                return null;
             }
             return null;
         }

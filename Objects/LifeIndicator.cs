@@ -14,9 +14,10 @@ namespace TableTopFury.Objects
     {
         int playerNum;
         int lifeNum;
-        const int sideBuffer = 90;
-        const int lifeSpacing = 10;
-        const int lifeY = 20;
+        int sideBuffer = 90;
+        float scaleModifier;
+        int lifeSpacing = 20;
+        int lifeY = 20;
         public LifeIndicator(int playerNum, int lifeNum) : base() 
         {
             this.playerNum = playerNum;
@@ -26,6 +27,12 @@ namespace TableTopFury.Objects
         public override void Initialize(GraphicsDeviceManager graphics)
         {
             int lifeX;
+
+            if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
+            {
+                sideBuffer += (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2;
+            }
+            
             if (playerNum == 1)
             {
                 lifeX = sideBuffer + ((texture.Width + lifeSpacing) * (lifeNum - 1)) ;
@@ -35,6 +42,12 @@ namespace TableTopFury.Objects
                 lifeX = graphics.PreferredBackBufferWidth - (sideBuffer + ((texture.Width + lifeSpacing) * (lifeNum - 1)));
             }
             position = new Vector2 (lifeX, lifeY);
+
+            scaleModifier = graphics.PreferredBackBufferHeight / 480f;
+
+            lifeSpacing = (int)(lifeSpacing * scaleModifier);
+
+            lifeY += (int)(scaleModifier * texture.Height / 2) - 16;
         }
 
         public override void LoadContent(ContentManager content)
@@ -53,7 +66,7 @@ namespace TableTopFury.Objects
                  Color.White,
                  0,
                  new Vector2(texture.Width / 2, texture.Height / 2),
-                 1f,
+                 scaleModifier,
                  SpriteEffects.None,
                  0f
                 );

@@ -41,6 +41,7 @@ namespace TableTopFury.Objects
             AddOnscreenObject(new PlayerPaddle(1));
             AddOnscreenObject(new PlayerPaddle(2));
             AddOnscreenObject(ball);
+            AddOnscreenObject(new Board());
             // _uiObjects = new List<UIElement>() { ,  };
             //_collisionObjects = new List<TTFObject>() { new PlayerPaddle(1), new PlayerPaddle(2), ball };
             gameEnded = false;
