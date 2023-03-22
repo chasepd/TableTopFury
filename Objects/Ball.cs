@@ -20,7 +20,7 @@ namespace TableTopFury.Objects
         public bool isExploding;
         float scaleModifier;
         const int explodeFrames = 14;
-        const int ballFrames = 4;
+        const int ballFrames = 9;
         protected ContentManager _contentManager;
         public Texture2D explosionTexture;
         public Texture2D ballTexture;
@@ -66,7 +66,7 @@ namespace TableTopFury.Objects
             _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
             _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
 
-            scaleModifier = graphics.PreferredBackBufferHeight / 480;
+            scaleModifier = graphics.PreferredBackBufferHeight / 480 / 3;
 
         }        
 
@@ -142,9 +142,13 @@ namespace TableTopFury.Objects
             else
             {
                 _ballAnimateTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
-                if (_ballAnimateTimeTracker >= new Random().NextDouble() + 0.3)
+                if (_ballAnimateTimeTracker >= 0.6)
                 {
-                    animationFrame = new Random().Next(1, ballFrames + 1);
+                    animationFrame += 1;
+                    if (animationFrame > ballFrames)
+                    {
+                        animationFrame = 1;
+                    }
                     _ballAnimateTimeTracker = 0.0;
                 } 
 
@@ -216,7 +220,7 @@ namespace TableTopFury.Objects
                 _rotationTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_rotationTimeTracker >= 0.05 && !isExploding)
                 {
-                    rotation += speedX + speedY;
+                    rotation += speedX / 2 + speedY / 2;
                     _rotationTimeTracker = 0;
                 }
                 

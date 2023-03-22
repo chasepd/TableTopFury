@@ -76,6 +76,7 @@ namespace TableTopFury.Objects
 
             MediaPlayer.Play(_battleThemes[new Random().Next(0,_battleThemes.Count)]);
             MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.2f;
 
             foreach (TTFObject obj in _collisionObjects)
             {

@@ -39,6 +39,7 @@ namespace TableTopFury.Objects
 
             MediaPlayer.Play(_menuTheme);
             MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.2f;
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
