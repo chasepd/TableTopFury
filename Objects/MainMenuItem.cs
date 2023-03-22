@@ -11,12 +11,13 @@ namespace TableTopFury.Objects
     internal abstract class MainMenuItem : MenuItem
     {
         protected int _menuPosition;
-        protected const float _scale = 0.25f;
+        protected float _scale;
         protected const int _maxMenuPositions = 10;
         
         public override void Initialize(GraphicsDeviceManager graphics)
         {
             position = new Vector2(graphics.PreferredBackBufferWidth / 2 , graphics.PreferredBackBufferHeight / _maxMenuPositions * _menuPosition);
+            _scale = 0.75f * (graphics.PreferredBackBufferHeight / 1440);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
