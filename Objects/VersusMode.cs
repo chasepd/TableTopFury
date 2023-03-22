@@ -34,14 +34,26 @@ namespace TableTopFury.Objects
             _player2LifeBar = new LifeBar(2);
             _lifeBars[1] = _player1LifeBar;
             _lifeBars[2] = _player2LifeBar;
+            Paddle _player1Paddle = new PlayerPaddle(1);
+            Paddle _player2Paddle = new AIPaddle(2, 10);//new PlayerPaddle(2);            
+
             Ball ball = new RegularBall();
             _ballExplosionTracker[ball] = false;
+
+            Board board = new Board();
             AddOnscreenObject(_player1LifeBar);
             AddOnscreenObject(_player2LifeBar);
-            AddOnscreenObject(new PlayerPaddle(1));
-            AddOnscreenObject(new PlayerPaddle(2));
+            AddOnscreenObject(_player1Paddle);
+            AddOnscreenObject(_player2Paddle);
             AddOnscreenObject(ball);
-            AddOnscreenObject(new Board());
+            AddOnscreenObject(board);
+
+            GameState.Paddles.Clear();
+            GameState.Paddles.Add(_player1Paddle);
+            GameState.Paddles.Add(_player2Paddle);
+            GameState.Balls.Clear();
+            GameState.Balls.Add(ball);
+            GameState.Board = board;
             // _uiObjects = new List<UIElement>() { ,  };
             //_collisionObjects = new List<TTFObject>() { new PlayerPaddle(1), new PlayerPaddle(2), ball };
             gameEnded = false;
