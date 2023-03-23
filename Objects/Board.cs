@@ -21,15 +21,8 @@ namespace TableTopFury.Objects
 
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            scaleModifier = (float)(graphics.PreferredBackBufferHeight / 1440 * 0.9);
-            if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
-            {
-                position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);
-            }
-            else
-            {
-                position = new Vector2(0, graphics.PreferredBackBufferHeight / 2);
-            }
+            scaleModifier = (float)(graphics.PreferredBackBufferHeight / 1440.0 * 0.9);
+            position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);            
         }
 
         public override void LoadContent(ContentManager content)

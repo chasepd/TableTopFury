@@ -28,11 +28,15 @@ namespace TableTopFury.Objects
         {
             int lifeX;
 
+            scaleModifier = graphics.PreferredBackBufferHeight / 480f;
+
             if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
             {
                 sideBuffer += (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2;
             }
-            
+
+            sideBuffer = (int)(sideBuffer * scaleModifier);
+
             if (playerNum == 1)
             {
                 lifeX = sideBuffer + ((texture.Width + lifeSpacing) * (lifeNum - 1)) ;
@@ -43,7 +47,7 @@ namespace TableTopFury.Objects
             }
             position = new Vector2 (lifeX, lifeY);
 
-            scaleModifier = graphics.PreferredBackBufferHeight / 480f;
+
 
             lifeSpacing = (int)(lifeSpacing * scaleModifier);
 

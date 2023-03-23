@@ -17,7 +17,7 @@ namespace TableTopFury.Objects
         public override void Initialize(GraphicsDeviceManager graphics)
         {
             position = new Vector2(graphics.PreferredBackBufferWidth / 2 , graphics.PreferredBackBufferHeight / _maxMenuPositions * _menuPosition);
-            _scale = 0.75f * (graphics.PreferredBackBufferHeight / 1440);
+            _scale = 0.75f * (float)(graphics.PreferredBackBufferHeight / 1440.0);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)

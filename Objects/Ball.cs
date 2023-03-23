@@ -60,13 +60,14 @@ namespace TableTopFury.Objects
 
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            position = new Vector2(graphics.PreferredBackBufferWidth / 2 - ((texture.Width / framesPerRow) / 2),
-               graphics.PreferredBackBufferHeight / 2 - ((texture.Height / frameRows) / 2));
+            scaleModifier = (float)(graphics.PreferredBackBufferHeight / 480.0 / 3.0);
+            position = new Vector2(graphics.PreferredBackBufferWidth / 2 - ((texture.Width * scaleModifier / framesPerRow) / 2),
+               graphics.PreferredBackBufferHeight / 2 - ((texture.Height * scaleModifier / frameRows) / 2));
 
             _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
             _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
 
-            scaleModifier = graphics.PreferredBackBufferHeight / 480 / 3;
+            
 
         }        
 
@@ -87,7 +88,7 @@ namespace TableTopFury.Objects
             }
             else
             {
-                return (int)(graphics.PreferredBackBufferWidth - (texture.Width * scaleModifier / framesPerRow / 2));
+                return 0;
             }
         }
 
@@ -99,7 +100,7 @@ namespace TableTopFury.Objects
             }
             else
             {
-                return (int)(graphics.PreferredBackBufferWidth - (texture.Width * scaleModifier / framesPerRow / 2));
+                return graphics.PreferredBackBufferWidth;
             }
         }
 
