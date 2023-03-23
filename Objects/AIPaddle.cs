@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace TableTopFury.Objects
         protected bool movingUpward;
         protected bool movingDownward;
         protected bool boosting;
-        protected const double movementUpdateDelay = 0.6;
+        protected const double movementUpdateDelay = 0;
         protected double movementUpdateTimeTracker;
         public AIPaddle(int playerNumber, int difficultyLevel) : base(playerNumber)
         {
@@ -94,24 +95,13 @@ namespace TableTopFury.Objects
 
         protected bool AtCollisionWithClosestBall()
         {
-            Ball closestBall = GetClosestBall();
-            return IsCollisionPoint(new Rectangle(
-                            (int)closestBall.position.X,
-                            (int)closestBall.position.Y,
-                            (int)(closestBall.texture.Width / closestBall.framesPerRow * closestBall.scaleModifier),
-                            (int)(closestBall.texture.Height / closestBall.frameRows * closestBall.scaleModifier)
-                            )) != 0;
-        }
-
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
-        {
-            base.Update(gameTime, graphics, objects);
-            int currentSpeed = Math.Abs(speedY);
+            //adjust size to make sure we're not cutting it too close by hitting the ball right at the edge of the paddle
+            float size_modifier = 30 * scaleModifier;
             int slowdownForcedMovement = 0;
-            movementUpdateTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+            int currentSpeed = Math.Abs(speedY);
             while (currentSpeed > 0)
             {
-               if(currentSpeed < speedStep)
+                if (currentSpeed < speedStep)
                 {
                     slowdownForcedMovement += currentSpeed;
                     currentSpeed = 0;
@@ -122,64 +112,80 @@ namespace TableTopFury.Objects
                     currentSpeed -= speedStep;
                 }
             }
+            Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier + (int)size_modifier, paddleWidthModifier * 2, paddleHeightModifier * 2 - (2 * (int) size_modifier));
+            Rectangle slowDownLocation = new Rectangle(0, 0, 1, 1);
 
-            if (((playerNumber == 1 && GetClosestBall().speedX < 0) || (playerNumber == 2 && GetClosestBall().speedX > 0)) && movementUpdateTimeTracker > movementUpdateDelay)
+            if (speedY > 0)
             {
-                movementUpdateTimeTracker = 0.0;
-                if (position.Y + slowdownForcedMovement < DetermineBallFinalHeight() && !AtCollisionWithClosestBall()) // && position.Y + (paddleWidthModifier * 2) + slowdownForcedMovement < DetermineBallFinalHeight())
+                slowDownLocation = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier + slowdownForcedMovement + (int)size_modifier, paddleWidthModifier * 2, paddleHeightModifier * 2 -  (2 * (int)size_modifier));
+            }
+            else if (speedY < 0)
+            {
+                slowDownLocation = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier - slowdownForcedMovement + (int)size_modifier, paddleWidthModifier * 2, paddleHeightModifier * 2 - (2 * (int)size_modifier));
+            }
+            Ball closestBall = GetClosestBall();
+
+            Rectangle finalBallLocation = new Rectangle(
+                            (int)position.X,
+                            DetermineBallFinalHeight(),
+                            (int)(closestBall.texture.Width / closestBall.framesPerRow * closestBall.scaleModifier),
+                            (int)(closestBall.texture.Height / closestBall.frameRows * closestBall.scaleModifier)
+                            );
+
+            return thisSprite.Intersects(finalBallLocation) || slowDownLocation.Intersects(finalBallLocation);                
+        }
+
+        protected bool BoosterCheck()
+        {
+            return false;
+        }
+
+        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
+        {
+            
+
+            if (((playerNumber == 1 && GetClosestBall().speedX < 0) || (playerNumber == 2 && GetClosestBall().speedX > 0))) // && movementUpdateTimeTracker > movementUpdateDelay)
+            {
+                boosting = BoosterCheck();
+                if (position.Y < GetClosestBall().position.Y && !AtCollisionWithClosestBall()) // && position.Y + (paddleWidthModifier * 2) + slowdownForcedMovement < DetermineBallFinalHeight())
                 {
-                    //if (Math.Abs(position.Y + slowdownForcedMovement - DetermineBallFinalHeight()) < graphics.PreferredBackBufferHeight / 2 && Math.Abs(position.Y + (paddleWidthModifier * 2) + slowdownForcedMovement - DetermineBallFinalHeight()) < graphics.PreferredBackBufferHeight)
-                    //{
-                    //    DownwardMovement(true);
-                    //}
-                    //else
-                    //{
-                    //    DownwardMovement(false);
-                    //}
                     movingDownward = true;
-                    movingUpward = false;
+                    movingUpward = false;                    
+
                 }
-                else if (position.Y - slowdownForcedMovement > DetermineBallFinalHeight() && !AtCollisionWithClosestBall()) //&& position.Y - (paddleWidthModifier * 2) - slowdownForcedMovement > DetermineBallFinalHeight())
+                else if (position.Y > GetClosestBall().position.Y && !AtCollisionWithClosestBall()) //&& position.Y - (paddleWidthModifier * 2) - slowdownForcedMovement > DetermineBallFinalHeight())
                 {
-                    //if (Math.Abs(position.Y - DetermineBallFinalHeight() - slowdownForcedMovement) > graphics.PreferredBackBufferHeight / 2 && Math.Abs(position.Y - (paddleWidthModifier * 2) - slowdownForcedMovement + DetermineBallFinalHeight()) > graphics.PreferredBackBufferHeight / 2)
-                    //{
-                    //    UpwardMovement(true);
-                    //}
-                    //else
-                    //{
-                    //    UpwardMovement(false);
-                    //}
                     movingUpward = true;
                     movingDownward = false;
                 }
                 else
                 {
                     movingDownward = false;
-                    movingUpward = false;
-                }
-
-                if (Math.Abs(position.Y - DetermineBallFinalHeight()) > graphics.PreferredBackBufferHeight / 2)
-                {
-                    boosting = true;
-                }
-                else
-                {
-                    boosting = false;
+                    movingUpward = false;                    
                 }
 
                 if (movingDownward)
                 {
+                    Debug.WriteLine("Moving Down. Ball Pos:" + GetClosestBall().position + " My pos: " + position + " Ending pos for ball: " + DetermineBallFinalHeight() + " Collision check:" + AtCollisionWithClosestBall());
                     DownwardMovement(boosting);
                 }
                 else if (movingUpward)
                 {
+                    Debug.WriteLine("Moving Up. Ball Pos:" + GetClosestBall().position + " My pos: " + position + " Ending pos for ball: " + DetermineBallFinalHeight() + " Collision check:" + AtCollisionWithClosestBall());
                     UpwardMovement(boosting);
                 }
                 else
                 {
+                    Debug.WriteLine("Slowing to stop");
                     SlowToStop();
                 }
             }
+            else
+            {
+                SlowToStop();
+            }
+
+            base.Update(gameTime, graphics, objects);
         }
 
     }

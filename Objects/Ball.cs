@@ -108,7 +108,7 @@ namespace TableTopFury.Objects
             _contentManager = content;
         }
 
-        private Rectangle GetCollisionBoundaries()
+        public Rectangle GetCollisionBoundaries()
         {
             //Position appears to be returning center. Remove half the ball size to get the correct coordinates for the top left of the collision rectangle.
             return new Rectangle((int)position.X - (int)(texture.Width / framesPerRow / 2 * scaleModifier), 
@@ -254,7 +254,7 @@ namespace TableTopFury.Objects
                 //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
                 //_texture.SetData(new Color[] { Color.Red });
 
-                //spriteBatch.Draw(_texture, GetCollisionBoundaries(), Color.White);
+                //spriteBatch.Draw(_texture, new Rectangle((int)position.X, (int)position.Y, 2, 2), Color.White);
             }
             else
             {
