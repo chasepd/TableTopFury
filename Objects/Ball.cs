@@ -19,7 +19,6 @@ namespace TableTopFury.Objects
         private int _preferredBackBufferWidth;
         private int _preferredBackBufferHeight;
         public bool isExploding;
-        public float scaleModifier;
         const int explodeFrames = 14;
         const int ballFrames = 9;
         protected ContentManager _contentManager;
