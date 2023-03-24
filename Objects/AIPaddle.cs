@@ -71,7 +71,6 @@ namespace TableTopFury.Objects
             int currentX = (int)closestBall.position.X;
             int currentY = (int)closestBall.position.Y;
             int ySpeed = closestBall.speedY;
-            int xSpeed = closestBall.speedX;
 
 
             while (currentX > GameState.Paddles[0].position.X && currentX < GameState.Paddles[1].position.X)
@@ -87,7 +86,7 @@ namespace TableTopFury.Objects
                     ySpeed *= -1;
                 }
                 currentX += closestBall.speedX;
-                currentY += closestBall.speedY;
+                currentY += ySpeed;
             }           
             
             return currentY;
@@ -141,9 +140,7 @@ namespace TableTopFury.Objects
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
-        {
-            
-
+        {          
             if (((playerNumber == 1 && GetClosestBall().speedX < 0) || (playerNumber == 2 && GetClosestBall().speedX > 0))) // && movementUpdateTimeTracker > movementUpdateDelay)
             {
                 boosting = BoosterCheck();
@@ -165,18 +162,15 @@ namespace TableTopFury.Objects
                 }
 
                 if (movingDownward)
-                {
-                    Debug.WriteLine("Moving Down. Ball Pos:" + GetClosestBall().position + " My pos: " + position + " Ending pos for ball: " + DetermineBallFinalHeight() + " Collision check:" + AtCollisionWithClosestBall());
+                {                    
                     DownwardMovement(boosting);
                 }
                 else if (movingUpward)
-                {
-                    Debug.WriteLine("Moving Up. Ball Pos:" + GetClosestBall().position + " My pos: " + position + " Ending pos for ball: " + DetermineBallFinalHeight() + " Collision check:" + AtCollisionWithClosestBall());
+                {                    
                     UpwardMovement(boosting);
                 }
                 else
                 {
-                    Debug.WriteLine("Slowing to stop");
                     SlowToStop();
                 }
             }

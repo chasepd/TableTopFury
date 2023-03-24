@@ -212,7 +212,7 @@ namespace TableTopFury.Objects
                 if (Math.Abs(other.Top - thisSprite.Bottom) < 10 && Math.Abs(other.Center.X - thisSprite.Center.X) < other.Width)
                 {
                     //Signal a speed direction reversal
-                    return 0;
+                    return -1000;
                 }
                 else if (Math.Abs(other.Center.X - thisSprite.Center.X) > (0.5 * other.Width) && other.Center.Y - thisSprite.Center.Y < 0 &&
                     Math.Abs(other.Center.Y - thisSprite.Center.Y) < thisSprite.Height / 4)
