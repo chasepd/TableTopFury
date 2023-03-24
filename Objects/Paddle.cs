@@ -12,7 +12,6 @@ namespace TableTopFury.Objects
     internal abstract class Paddle : TTFObject
     {
         protected int playerNumber;
-        protected float scaleModifier;
         protected int paddleHeightModifier;
         protected int paddleWidthModifier;
         protected double _animateTimeTracker;
@@ -193,28 +192,40 @@ namespace TableTopFury.Objects
                  SpriteEffects.None,
                  0.2f
                 );
-           
-            //Texture2D _texture;
 
-            //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            //_texture.SetData(new Color[] { Color.Red });
+            Texture2D _texture;
 
-            //spriteBatch.Draw(_texture, new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, paddleWidthModifier * 2, paddleHeightModifier * 2), Color.White);
+            _texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            _texture.SetData(new Color[] { Color.Red });
+
+            spriteBatch.Draw(_texture, new Rectangle(
+                (int)(position.X - paddleWidthModifier + (paddleWidthModifier * 0.2f)),
+                (int)(position.Y + paddleHeightModifier - (paddleHeightModifier * 0.1f)),
+                (int)(GetWidth() - (paddleWidthModifier * 0.4f)),
+                (int)((paddleHeightModifier * 0.1f))), Color.White);
         }
 
         public override int IsCollisionPoint(Rectangle other)
         {
-            Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, paddleWidthModifier * 2, paddleHeightModifier * 2);
-
-            if (thisSprite.Intersects(other))
+            Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, GetWidth(), GetHeight());
+            Rectangle topEdge = new Rectangle(
+                (int)(position.X - paddleWidthModifier + (paddleWidthModifier * 0.2f)),
+                (int)position.Y - paddleHeightModifier,
+                (int)(GetWidth() - (paddleWidthModifier * 0.4f)),
+                (int)(GetHeight() * 0.1));
+            Rectangle bottomEdge = new Rectangle(
+                (int)(position.X - paddleWidthModifier + (paddleWidthModifier * 0.2f)),
+                (int)(position.Y + paddleHeightModifier - (paddleHeightModifier * 0.1f)),
+                (int)(GetWidth() - (paddleWidthModifier * 0.4f)),
+                (int)(GetHeight() * 0.1));
+            
+            if (topEdge.Intersects(other) || bottomEdge.Intersects(other))
             {
-
-                if (Math.Abs(other.Top - thisSprite.Bottom) < 10 && Math.Abs(other.Center.X - thisSprite.Center.X) < other.Width)
-                {
-                    //Signal a speed direction reversal
-                    return -1000;
-                }
-                else if (Math.Abs(other.Center.X - thisSprite.Center.X) > (0.5 * other.Width) && other.Center.Y - thisSprite.Center.Y < 0 &&
+                return -1000;
+            }
+            else if (thisSprite.Intersects(other))
+            {
+                if (Math.Abs(other.Center.X - thisSprite.Center.X) > (0.5 * other.Width) && other.Center.Y - thisSprite.Center.Y < 0 &&
                     Math.Abs(other.Center.Y - thisSprite.Center.Y) < thisSprite.Height / 4)
                 {
                     return -1;

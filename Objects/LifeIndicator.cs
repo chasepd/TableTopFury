@@ -15,7 +15,6 @@ namespace TableTopFury.Objects
         int playerNum;
         int lifeNum;
         int sideBuffer = 90;
-        float scaleModifier;
         int lifeSpacing = 20;
         int lifeY = 20;
         public LifeIndicator(int playerNum, int lifeNum) : base() 

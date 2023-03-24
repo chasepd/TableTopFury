@@ -18,7 +18,7 @@ namespace TableTopFury.Objects
         public float rotation;
         public int speedX;
         public int speedY;
-
+        public float scaleModifier;
         public int framesPerRow;
         public int frameRows;
 
@@ -31,5 +31,14 @@ namespace TableTopFury.Objects
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics);
 
         public abstract int IsCollisionPoint(Rectangle other);
+
+        public int GetWidth()
+        {
+            return (int)(texture.Width / framesPerRow * scaleModifier);
+        }
+        public int GetHeight()
+        {
+            return (int)(texture.Height / frameRows * scaleModifier);
+        }
     }
 }

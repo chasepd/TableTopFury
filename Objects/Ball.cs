@@ -15,6 +15,7 @@ namespace TableTopFury.Objects
         private double _explosionTimeTracker;
         private double _ballAnimateTimeTracker;
         private double _rotationTimeTracker;
+        private double _collisionTimeTracker;
         private int _preferredBackBufferWidth;
         private int _preferredBackBufferHeight;
         public bool isExploding;
@@ -31,6 +32,7 @@ namespace TableTopFury.Objects
             animationFrame = 1;
             _explosionTimeTracker = 0.0;
             _rotationTimeTracker = 0.0;
+            _collisionTimeTracker = 0.0;
             frameRows = 1;
             framesPerRow = ballFrames;
             isExploding = false;
@@ -51,6 +53,7 @@ namespace TableTopFury.Objects
             animationFrame = 1;
             _explosionTimeTracker = 0.0;
             _rotationTimeTracker = 0.0;
+            _collisionTimeTracker = 0.0;
             frameRows = 1;
             framesPerRow = ballFrames;
             isExploding = false;
@@ -120,6 +123,7 @@ namespace TableTopFury.Objects
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
         {
+            _collisionTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
             if (isExploding)
             {
                 _rotationTimeTracker = 0.0;
@@ -187,29 +191,46 @@ namespace TableTopFury.Objects
                         speedY = 1;
                     }
                 }
-
-                foreach (TTFObject obj in objects)
+                if (_collisionTimeTracker > 1)
                 {
-                    if (obj is Paddle || obj is Board)
+                    foreach (TTFObject obj in objects)
                     {
-                        int collisionResult = obj.IsCollisionPoint(GetCollisionBoundaries());
-                        if (collisionResult == -1000)
+                        if (obj is Paddle || obj is Board)
                         {
-                            speedY *= -1;
-                        }
-                        else if (collisionResult != 0)
-                        {
-                            speedY += collisionResult;
-                            speedX *= -1;
-                            if (speedX > 0) {
-                                speedX += Math.Abs(collisionResult) - 1;
-                            }
-                            if (speedX < 0)
+                            int collisionResult = obj.IsCollisionPoint(GetCollisionBoundaries());
+                            if (collisionResult == -1000)
                             {
-                                speedX -= Math.Abs(collisionResult) - 1;
+                                speedY *= -1;
+                                speedX *= -1;
+                                speedX /= Math.Abs(speedX);
+                                speedX *= (int)(scaleModifier * 5);
+                                _collisionTimeTracker = 0.0;
+                                SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
+                                _contactSound.CreateInstance().Play();
                             }
-                            SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
-                            _contactSound.CreateInstance().Play();
+                            else if(collisionResult == -50)
+                            {
+                                speedY *= -1;
+                                _collisionTimeTracker = 0.0;
+                                SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
+                                _contactSound.CreateInstance().Play();
+                            }
+                            else if (collisionResult != 0)
+                            {
+                                _collisionTimeTracker = 0.0;
+                                speedY += collisionResult;
+                                speedX *= -1;
+                                if (speedX > 0)
+                                {
+                                    speedX += Math.Abs(collisionResult) - 1;
+                                }
+                                if (speedX < 0)
+                                {
+                                    speedX -= Math.Abs(collisionResult) - 1;
+                                }
+                                SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
+                                _contactSound.CreateInstance().Play();
+                            }
                         }
                     }
                 }

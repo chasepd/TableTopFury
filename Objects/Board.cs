@@ -11,7 +11,6 @@ namespace TableTopFury.Objects
 {
     internal class Board : TTFObject
     {
-        float scaleModifier;
         public Board() : base() 
         {
             frameRows = 1;
@@ -54,7 +53,7 @@ namespace TableTopFury.Objects
         {
             if (other.Location.Y + other.Height > position.Y + (texture.Height * scaleModifier / 2) || other.Location.Y < position.Y - (texture.Height * scaleModifier / 2))
             {
-                return -1000;
+                return -50;
             }
             else
             {
