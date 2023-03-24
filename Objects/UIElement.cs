@@ -12,7 +12,7 @@ namespace TableTopFury.Objects
 
         public UIElement() { }
 
-        public override int IsCollisionPoint(Rectangle other)
+        public override int GetCollisionIntensity(Rectangle other)
         {
             return 0;
         }

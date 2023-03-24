@@ -49,7 +49,7 @@ namespace TableTopFury.Objects
                 );
         }
 
-        public override int IsCollisionPoint(Rectangle other)
+        public override int GetCollisionIntensity(Rectangle other)
         {
             if (other.Location.Y + other.Height > position.Y + (texture.Height * scaleModifier / 2) || other.Location.Y < position.Y - (texture.Height * scaleModifier / 2))
             {

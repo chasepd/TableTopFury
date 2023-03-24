@@ -196,7 +196,7 @@ namespace TableTopFury.Objects
                     {
                         if (obj is Paddle || obj is Board)
                         {
-                            int collisionResult = obj.IsCollisionPoint(GetCollisionBoundaries());
+                            int collisionResult = obj.GetCollisionIntensity(GetCollisionBoundaries());
                             if (collisionResult == -1000)
                             {
                                 speedY *= -1;
@@ -290,7 +290,7 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override int IsCollisionPoint(Rectangle other)
+        public override int GetCollisionIntensity(Rectangle other)
         {
             if (GetCollisionBoundaries().Intersects(other))
             {

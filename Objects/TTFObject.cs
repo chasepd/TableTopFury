@@ -30,7 +30,7 @@ namespace TableTopFury.Objects
 
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics);
 
-        public abstract int IsCollisionPoint(Rectangle other);
+        public abstract int GetCollisionIntensity(Rectangle other);
 
         public int GetWidth()
         {

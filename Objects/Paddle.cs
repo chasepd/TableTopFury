@@ -193,19 +193,20 @@ namespace TableTopFury.Objects
                  0.2f
                 );
 
-            Texture2D _texture;
+            //Texture2D _texture;
 
-            _texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            _texture.SetData(new Color[] { Color.Red });
+            //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            //_texture.SetData(new Color[] { Color.Red });
 
-            spriteBatch.Draw(_texture, new Rectangle(
-                (int)(position.X - paddleWidthModifier + (paddleWidthModifier * 0.2f)),
-                (int)(position.Y + paddleHeightModifier - (paddleHeightModifier * 0.1f)),
-                (int)(GetWidth() - (paddleWidthModifier * 0.4f)),
-                (int)((paddleHeightModifier * 0.1f))), Color.White);
+            //spriteBatch.Draw(_texture, new Rectangle(
+            //    (int)(position.X - paddleWidthModifier + (paddleWidthModifier * 0.2f)),
+            //    (int)(position.Y + paddleHeightModifier - (paddleHeightModifier * 0.1f)),
+            //    (int)(GetWidth() - (paddleWidthModifier * 0.4f)),
+            //    (int)((paddleHeightModifier * 0.1f))), Color.White);
+
         }
 
-        public override int IsCollisionPoint(Rectangle other)
+        public override int GetCollisionIntensity(Rectangle other)
         {
             Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, GetWidth(), GetHeight());
             Rectangle topEdge = new Rectangle(

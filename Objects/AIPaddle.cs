@@ -75,7 +75,7 @@ namespace TableTopFury.Objects
 
             while (currentX > GameState.Paddles[0].position.X && currentX < GameState.Paddles[1].position.X)
             {
-                if(GameState.Board.IsCollisionPoint(
+                if(GameState.Board.GetCollisionIntensity(
                     new Rectangle(
                         currentX, 
                         currentY, 

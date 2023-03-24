@@ -66,7 +66,7 @@ namespace TableTopFury.Objects
         public abstract Mode CheckForNextScreen();
 
 
-        public override int IsCollisionPoint(Rectangle other)
+        public override int GetCollisionIntensity(Rectangle other)
         {
             return 0;
         }
