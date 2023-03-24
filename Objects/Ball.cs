@@ -36,7 +36,7 @@ namespace TableTopFury.Objects
             isExploding = false;
             rotation = 0;
             speedX = 5;
-            speedX += new Random().Next(0, 10);
+            speedX += new Random().Next(0, 20);
             if (new Random().Next(1, 3) == 2)
             {
                 speedX *= -1;
@@ -66,9 +66,8 @@ namespace TableTopFury.Objects
 
             _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
             _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
-
-            
-
+            speedX = (int)(speedX * scaleModifier);
+            speedY = (int)(speedY * scaleModifier);
         }        
 
         public void Explode()
@@ -215,8 +214,8 @@ namespace TableTopFury.Objects
                     }
                 }
 
-                position.Y += speedY;
-                position.X += speedX;
+                position.Y += (int)(speedY * scaleModifier);
+                position.X += (int)(speedX * scaleModifier);
 
                 _rotationTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
                 if (_rotationTimeTracker >= 0.05 && !isExploding)
