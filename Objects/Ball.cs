@@ -28,21 +28,12 @@ namespace TableTopFury.Objects
         protected List<SoundEffect> _contactSounds;
         public Ball() 
         {
-            animationFrame = 1;
             _explosionTimeTracker = 0.0;
             _rotationTimeTracker = 0.0;
             _collisionTimeTracker = 0.0;
             frameRows = 1;
             framesPerRow = ballFrames;
             isExploding = false;
-            rotation = 0;
-            speedX = 5;
-            speedX += new Random().Next(0, 20);
-            if (new Random().Next(1, 3) == 2)
-            {
-                speedX *= -1;
-            }
-            speedY = new Random().Next(-1, 2);
             _contactSounds = new List<SoundEffect>();
         }
 
@@ -68,8 +59,7 @@ namespace TableTopFury.Objects
 
             _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
             _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
-            speedX = (int)(speedX * scaleModifier);
-            speedY = (int)(speedY * scaleModifier);
+            ResetBall();
         }        
 
         public void Explode()
@@ -122,6 +112,10 @@ namespace TableTopFury.Objects
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
         {
+            if (speedX > GameState.Paddles[0].GetWidth())
+            {
+                speedX = (int)(0.75 * GameState.Paddles[0].GetWidth());
+            }
             _collisionTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
             if (isExploding)
             {
@@ -190,51 +184,84 @@ namespace TableTopFury.Objects
                         speedY = 1;
                     }
                 }
-                if (_collisionTimeTracker > 1)
+                bool collision = false;
+                if (_collisionTimeTracker > 0.6)
                 {
                     foreach (TTFObject obj in objects)
                     {
                         if (obj is Paddle || obj is Board)
                         {
                             int collisionResult = obj.GetCollisionIntensity(GetCollisionBoundaries());
+                            int collisionResultAfterMove = obj.GetCollisionIntensity(new Rectangle(
+                                (int)(position.X + (speedY * scaleModifier) - (this.GetWidth() / 2.0)),
+                                (int)(position.Y + (speedY * scaleModifier) - (this.GetHeight() / 2.0)),
+                                this.GetWidth(), this.GetHeight()));
+
+                            if (collisionResult == 0 && collisionResultAfterMove != 0 && obj is Paddle)
+                            {
+                                collisionResult = collisionResultAfterMove;
+                            }
+
                             if (collisionResult == -1000)
                             {
                                 speedY *= -1;
                                 speedX *= -1;
-                                speedX /= Math.Abs(speedX);
-                                speedX *= (int)(scaleModifier * 5);
-                                _collisionTimeTracker = 0.0;
-                                SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
-                                _contactSound.CreateInstance().Play();
+                                //speedX /= Math.Abs(speedX);
+                                //speedX *= (int)(scaleModifier * 5);
+                                collision = true;
                             }
                             else if(collisionResult == -50)
                             {
                                 speedY *= -1;
-                                _collisionTimeTracker = 0.0;
-                                SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
-                                _contactSound.CreateInstance().Play();
+                                collision = true;
                             }
                             else if (collisionResult != 0)
-                            {
-                                _collisionTimeTracker = 0.0;
+                            {                                
                                 speedY += collisionResult;
                                 speedX *= -1;
                                 if (speedX > 0)
                                 {
-                                    speedX += Math.Abs(collisionResult) - 1;
+                                    speedX += Math.Abs(collisionResult);
                                 }
                                 if (speedX < 0)
                                 {
-                                    speedX -= Math.Abs(collisionResult) - 1;
+                                    speedX -= Math.Abs(collisionResult);
                                 }
-                                SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
-                                _contactSound.CreateInstance().Play();
+                                collision = true;                                
                             }
                         }
                     }
                 }
+                Board board = GameState.Board;
+                if (position.Y + (speedY * scaleModifier) > board.position.Y + (board.GetHeight() / 2) - (this.GetHeight() / 2f))
+                {
+                    position.Y = board.position.Y + (board.GetHeight() / 2f) - (this.GetHeight() / 2f);
+                    speedY *= -1;
+                    collision = true;
+                }
+                else if (position.Y + (speedY * scaleModifier) < board.position.Y - (board.GetHeight() / 2) + (this.GetHeight() / 2f))
+                {
+                    position.Y = board.position.Y - (board.GetHeight() / 2) + (this.GetHeight() / 2f);
+                    speedY *= -1;
+                    collision = true;
+                }
+                else
+                {
+                    position.Y += (int)(speedY * scaleModifier);
+                }
 
-                position.Y += (int)(speedY * scaleModifier);
+                //List<Paddle> paddles = GameState.Paddles;
+                //foreach (Paddle paddle in paddles)
+                //{
+                //    if (paddle.GetCollisionIntensity(new Rectangle(
+                //        (int)(position.X + (speedY * scaleModifier) - (this.GetWidth() / 2.0)),
+                //        (int)(position.Y + (speedY * scaleModifier) - (this.GetHeight() / 2.0)),
+                //        this.GetWidth(), this.GetHeight())) != 0)
+                //    {
+                //        collision = true;
+                //        speedX = -1;
+                //    }
+                //}
                 position.X += (int)(speedX * scaleModifier);
 
                 _rotationTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
@@ -242,6 +269,13 @@ namespace TableTopFury.Objects
                 {
                     rotation += speedX / 2 + speedY / 2;
                     _rotationTimeTracker = 0;
+                }
+
+                if (collision)
+                {
+                    _collisionTimeTracker = 0.0;
+                    SoundEffect _contactSound = _contactSounds[new Random().Next(0, _contactSounds.Count)];
+                    _contactSound.CreateInstance().Play();
                 }
                 
             }
@@ -257,6 +291,12 @@ namespace TableTopFury.Objects
         {
             if (animationFrame < explodeFrames || isExploding)
             {
+                //Texture2D _texture;
+
+                //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+                //_texture.SetData(new Color[] { Color.Red });
+
+                //spriteBatch.Draw(_texture, GetCollisionBoundaries(), Color.White);
                 spriteBatch.Draw(
                  texture,
                  position,
@@ -269,24 +309,12 @@ namespace TableTopFury.Objects
                  0.2f
                 );
 
-                //Texture2D _texture;
 
-                //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-                //_texture.SetData(new Color[] { Color.Red });
-
-                //spriteBatch.Draw(_texture, new Rectangle((int)position.X, (int)position.Y, 2, 2), Color.White);
             }
             else
             {
                 animationFrame = 1;
-                position = new Vector2(graphics.PreferredBackBufferWidth / 2,
-                 graphics.PreferredBackBufferHeight / 2);
-                speedX = 5;
-                speedY = 1;
-                if (new Random().Next(1, 3) == 2)
-                {
-                    speedX *= -1;
-                }
+                ResetBall();
             }
         }
 
@@ -303,6 +331,23 @@ namespace TableTopFury.Objects
         }
 
         public abstract int DamageValue();
+
+        private void ResetBall()
+        {
+            animationFrame = 1;
+            rotation = 0;
+            position = new Vector2(_preferredBackBufferWidth / 2,
+             _preferredBackBufferHeight / 2);
+            speedX = 5;
+            speedX += new Random().Next(0, 20);
+            if (new Random().Next(1, 3) == 2)
+            {
+                speedX *= -1;
+            }
+            speedY = new Random().Next(-1, 2);
+            speedX = (int)(speedX * scaleModifier);
+            speedY = (int)(speedY * scaleModifier);
+        }
 
         public int GetPlayerDamaged()
         {

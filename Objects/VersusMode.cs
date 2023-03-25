@@ -150,7 +150,7 @@ namespace TableTopFury.Objects
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
-            base.Draw(gameTime, spriteBatch, graphics);
+            
 
             foreach (TTFObject obj in _uiObjects)
             {
