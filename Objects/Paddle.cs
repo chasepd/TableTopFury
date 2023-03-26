@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -308,6 +310,11 @@ namespace TableTopFury.Objects
             }
             else
             {
+                //if(other.X > thisSprite.X && other.X < thisSprite.X + thisSprite.Width &&
+                //    other.Y > thisSprite.Y && other.Y < thisSprite.Y + thisSprite.Height)
+                //{
+                //    Debug.WriteLine("Something funky is going on here!");
+                //}
                 return 0;
             }
         }

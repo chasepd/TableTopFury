@@ -76,6 +76,10 @@ namespace TableTopFury.Objects
                         _selectionTimeTracker = 0.0;
                     }
                 }
+                else
+                {
+                    _selectionTimeTracker = 1000;
+                }
                 _menuItems[_selectedItem].Select();
             }
         }
