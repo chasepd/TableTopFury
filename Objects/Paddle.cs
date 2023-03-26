@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -20,12 +21,21 @@ namespace TableTopFury.Objects
         protected int speedStep;
         protected int boostStep;
         protected const double _speedChangeDelay = 0.02;
+        protected Texture2D boosterTexture;
+        protected int boosterFramesPerRow;
+        protected int boosterFrameRows;
+        protected Rectangle boosterSourceRectangle;
+        protected int boosterAnimationFrame;
+        protected double boosterTimeTracker;
 
         public Paddle(int playerNumber)
         {
             animationFrame = 1;
             frameRows = 1;
             framesPerRow = 7;
+            boosterFramesPerRow = 5;
+            boosterFrameRows = 1;
+            boosterAnimationFrame = 1;
             _animateTimeTracker = 0.0;
             speedX = 0;
             speedY = 0;
@@ -79,6 +89,11 @@ namespace TableTopFury.Objects
             {
                 boostStep = 1;
             }
+        }
+
+        public override void LoadContent(ContentManager content)
+        {
+            boosterTexture = content.Load<Texture2D>("BoosterFlames");
         }
 
         protected void UpwardMovement(bool boost)
@@ -149,7 +164,8 @@ namespace TableTopFury.Objects
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
         {
             _animateTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
-            _speedChangeTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;            
+            _speedChangeTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+            boosterTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
 
             position.Y += speedY;
             position.X += speedX;
@@ -176,7 +192,19 @@ namespace TableTopFury.Objects
             {
                 animationFrame = 1;
             }
+
+            if (boosterTimeTracker > 0.4)
+            {
+                boosterAnimationFrame++;
+                if (boosterAnimationFrame >= boosterFramesPerRow) 
+                { 
+                    boosterAnimationFrame = 1;
+                }
+                boosterTimeTracker = 0.0;
+            }
+
             sourceRectangle = new Rectangle((texture.Width / framesPerRow) * (animationFrame - 1), 0, texture.Width / framesPerRow, texture.Height);
+            boosterSourceRectangle = new Rectangle(boosterTexture.Width / boosterFramesPerRow * (boosterAnimationFrame - 1), 0, boosterTexture.Width/ boosterFramesPerRow, boosterTexture.Height);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
@@ -193,16 +221,40 @@ namespace TableTopFury.Objects
                  0.2f
                 );
 
-            //Texture2D _texture;
+            SpriteEffects boosterRotation = SpriteEffects.None;
+            Vector2 boosterPosition = new Vector2(position.X, position.Y + (texture.Height / 2 * scaleModifier) + (boosterTexture.Height / 2 * scaleModifier));
 
-            //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            //_texture.SetData(new Color[] { Color.Red });
+            if (speedY > 0)
+            {
+                boosterRotation = SpriteEffects.FlipVertically;
+                boosterPosition = new Vector2(position.X, position.Y - (texture.Height / 2 * scaleModifier) - (boosterTexture.Height / 2 * scaleModifier));
+            }
 
-            //spriteBatch.Draw(_texture, new Rectangle(
-            //    (int)(position.X - paddleWidthModifier + (paddleWidthModifier * 0.2f)),
-            //    (int)(position.Y + paddleHeightModifier - (paddleHeightModifier * 0.1f)),
-            //    (int)(GetWidth() - (paddleWidthModifier * 0.4f)),
-            //    (int)((paddleHeightModifier * 0.1f))), Color.White);
+            if(speedY < 0 || speedY > 0)
+            {
+                spriteBatch.Draw(
+                 boosterTexture,
+                 boosterPosition,
+                 boosterSourceRectangle,
+                 Color.White,
+                 0,
+                 new Vector2(boosterTexture.Width / (boosterFramesPerRow * 2), boosterTexture.Height / (boosterFrameRows * 2)),
+                 scaleModifier,
+                 boosterRotation,
+                 0.1f
+                );
+            }
+
+            Texture2D _texture;
+
+            _texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            _texture.SetData(new Color[] { Color.Red });
+
+            spriteBatch.Draw(_texture, new Rectangle(
+                (int)(position.X),
+                (int)(position.Y),
+                5,
+                5), Color.White);
 
         }
 

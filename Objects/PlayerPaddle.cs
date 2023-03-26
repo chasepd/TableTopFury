@@ -18,6 +18,7 @@ namespace TableTopFury.Objects
 
         public override void LoadContent(ContentManager content)
         {
+            base.LoadContent(content);
             texture = content.Load<Texture2D>("BasicPaddle");
         }        
 
