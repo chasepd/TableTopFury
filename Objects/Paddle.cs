@@ -22,6 +22,8 @@ namespace TableTopFury.Objects
         protected int boostStep;
         protected const double _speedChangeDelay = 0.02;
         protected Texture2D boosterTexture;
+        protected Texture2D normalBoosterTexture;
+        protected Texture2D ultraBoosterTexture;
         protected int boosterFramesPerRow;
         protected int boosterFrameRows;
         protected Rectangle boosterSourceRectangle;
@@ -93,7 +95,9 @@ namespace TableTopFury.Objects
 
         public override void LoadContent(ContentManager content)
         {
-            boosterTexture = content.Load<Texture2D>("BoosterFlames");
+            normalBoosterTexture = content.Load<Texture2D>("BoosterFlames");
+            ultraBoosterTexture = content.Load<Texture2D>("UltraBoosterFlames");
+            boosterTexture = normalBoosterTexture;
         }
 
         protected void UpwardMovement(bool boost)
@@ -102,10 +106,12 @@ namespace TableTopFury.Objects
             {
                 if (!boost)
                 {
+                    boosterTexture = normalBoosterTexture;
                     speedY -= speedStep;
                 }
                 else
                 {
+                    boosterTexture = ultraBoosterTexture;
                     speedY -= boostStep;
                 }
                 if (speedY < -1 * absoluteSpeed)
@@ -123,9 +129,11 @@ namespace TableTopFury.Objects
                 if (!boost)
                 {
                     speedY += speedStep;
+                    boosterTexture = normalBoosterTexture;
                 }
                 else
                 {
+                    boosterTexture = ultraBoosterTexture;
                     speedY += boostStep;
                 }
                 if (speedY > absoluteSpeed)
