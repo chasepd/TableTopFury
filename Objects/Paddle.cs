@@ -255,16 +255,16 @@ namespace TableTopFury.Objects
                 );
             }
 
-            Texture2D _texture;
+            //Texture2D _texture;
 
-            _texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            _texture.SetData(new Color[] { Color.Red });
+            //_texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            //_texture.SetData(new Color[] { Color.Red });
 
-            spriteBatch.Draw(_texture, new Rectangle(
-                (int)(position.X),
-                (int)(position.Y),
-                5,
-                5), Color.White);
+            //spriteBatch.Draw(_texture, new Rectangle(
+            //    (int)(position.X),
+            //    (int)(position.Y),
+            //    5,
+            //    5), Color.White);
 
         }
 
