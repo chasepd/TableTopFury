@@ -17,28 +17,25 @@ namespace TableTopFury
         public TableTopFuryGame()
         {
             _graphics = new GraphicsDeviceManager(this);
+            GameState.Graphics = _graphics;
             var displaymodes = GraphicsAdapter.DefaultAdapter.SupportedDisplayModes;
             _graphics.PreferredBackBufferHeight = 1080;
             _graphics.PreferredBackBufferWidth = 1920;
             //_graphics.ToggleFullScreen();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _currentMode = new MainMenuMode();
-
+            _currentMode = new StartupMode();            
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-
-            _currentMode.Initialize(_graphics);
+            GameState.Content = Content;
         }
 
         protected override void LoadContent()
-        {
+        {            
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            _currentMode.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)

@@ -15,14 +15,18 @@ namespace TableTopFury.Menus
         protected int value;
         protected bool selected;
         protected bool _navigate;
+        protected double _timeInExistence;
+        protected bool canBeSelected;
 
         public MenuItem()
         {
             value = 0;
             selected = false;
+            canBeSelected = false;
             animationFrame = 1;
             frameRows = 1;
             framesPerRow = 2;
+            _timeInExistence = 0.0;
         }
         public virtual int GetCurrentValue()
         {
@@ -46,15 +50,27 @@ namespace TableTopFury.Menus
             selected = false;
         }
 
+        public virtual bool IsSelected()
+        {
+            return selected;
+        }
+
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
         {
             if (selected)
             {
                 animationFrame = 2;
-                var kstate = Keyboard.GetState();
-                if (kstate.IsKeyDown(Keys.Enter))
+                if (_timeInExistence > 0.09)
                 {
-                    _navigate = true;
+                    var kstate = Keyboard.GetState();
+                    if (kstate.IsKeyDown(Keys.Enter) && canBeSelected)
+                    {
+                        _navigate = true;
+                    }
+                    else if (!kstate.IsKeyDown(Keys.Enter))
+                    {
+                        canBeSelected = true;
+                    }
                 }
             }
             else
@@ -63,6 +79,7 @@ namespace TableTopFury.Menus
             }
 
             sourceRectangle = new Rectangle(0 + (texture.Width / framesPerRow + 1) * (animationFrame - 1), 0, texture.Width / framesPerRow, texture.Height / frameRows);
+            _timeInExistence += gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         public abstract Mode CheckForNextScreen();

@@ -10,6 +10,7 @@ namespace TableTopFury.Modes
     {
         public enum MenuToSwitchTo
         {
+            MainMenu,
             Settings,
             SinglePlayer
         }

@@ -24,6 +24,11 @@ namespace TableTopFury.Modes
             _onScreenObjects.Add(obj);
         }
 
+        protected virtual void ClearOnscreenObjects()
+        {
+            _onScreenObjects?.Clear();
+        }
+
         public virtual void Initialize(GraphicsDeviceManager graphics)
         {
             foreach (TTFObject obj in _onScreenObjects)
