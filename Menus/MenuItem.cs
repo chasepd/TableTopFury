@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TableTopFury.Modes;
+using TableTopFury.Objects;
 
-namespace TableTopFury.Objects
+namespace TableTopFury.Menus
 {
     internal abstract class MenuItem : TTFObject
     {
@@ -15,7 +16,7 @@ namespace TableTopFury.Objects
         protected bool selected;
         protected bool _navigate;
 
-        public MenuItem() 
+        public MenuItem()
         {
             value = 0;
             selected = false;
@@ -44,15 +45,15 @@ namespace TableTopFury.Objects
         {
             selected = false;
         }
-        
+
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
         {
             if (selected)
             {
                 animationFrame = 2;
                 var kstate = Keyboard.GetState();
-                if (kstate.IsKeyDown(Keys.Enter)) 
-                { 
+                if (kstate.IsKeyDown(Keys.Enter))
+                {
                     _navigate = true;
                 }
             }
@@ -61,7 +62,7 @@ namespace TableTopFury.Objects
                 animationFrame = 1;
             }
 
-            sourceRectangle = new Rectangle(0 + ((texture.Width / framesPerRow  + 1) * (animationFrame - 1)), 0, texture.Width / framesPerRow, texture.Height / frameRows);
+            sourceRectangle = new Rectangle(0 + (texture.Width / framesPerRow + 1) * (animationFrame - 1), 0, texture.Width / framesPerRow, texture.Height / frameRows);
         }
 
         public abstract Mode CheckForNextScreen();

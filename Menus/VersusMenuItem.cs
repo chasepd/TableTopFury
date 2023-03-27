@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,28 +7,27 @@ using System.Text;
 using System.Threading.Tasks;
 using TableTopFury.Modes;
 
-namespace TableTopFury.Objects
+namespace TableTopFury.Menus
 {
-    internal class SinglePlayerMenuItem : MainMenuItem
-    {        
-        public SinglePlayerMenuItem() : base()
+    internal class VersusMenuItem : MainMenuItem
+    {
+        public VersusMenuItem() : base()
         {
-            _menuPosition = 6;
+            _menuPosition = 7;
         }
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("MainMenu-SinglePlayer");
+            texture = content.Load<Texture2D>("MainMenu-Versus");
         }
 
         public override Mode CheckForNextScreen()
         {
             if (_navigate)
             {
-                return null;
+                return new VersusMode();
             }
             return null;
         }
-
     }
 }

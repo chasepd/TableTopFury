@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TableTopFury.Objects
+namespace TableTopFury.Menus
 {
     internal abstract class MainMenuItem : MenuItem
     {
         protected int _menuPosition;
         protected float _scale;
         protected const int _maxMenuPositions = 10;
-        
+
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            position = new Vector2(graphics.PreferredBackBufferWidth / 2 , graphics.PreferredBackBufferHeight / _maxMenuPositions * _menuPosition);
+            position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / _maxMenuPositions * _menuPosition);
             _scale = 0.75f * (float)(graphics.PreferredBackBufferHeight / 1440.0);
         }
 

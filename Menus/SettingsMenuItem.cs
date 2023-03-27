@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TableTopFury.Modes;
 
-namespace TableTopFury.Objects
+namespace TableTopFury.Menus
 {
     internal class SettingsMenuItem : MainMenuItem
     {
