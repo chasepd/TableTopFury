@@ -8,8 +8,9 @@ using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using TableTopFury.Objects;
 
-namespace TableTopFury.Objects
+namespace TableTopFury.Modes
 {
     internal class VersusMode : GameplayMode
     {
@@ -26,7 +27,7 @@ namespace TableTopFury.Objects
         private const int maxMessageFrames = 2;
         private List<Song> _battleThemes;
 
-        public VersusMode() 
+        public VersusMode()
         {
             _ballExplosionTracker = new Dictionary<Ball, bool>();
             _lifeBars = new Dictionary<int, LifeBar>();
@@ -65,7 +66,7 @@ namespace TableTopFury.Objects
         public override void Initialize(GraphicsDeviceManager graphics)
         {
             base.Initialize(graphics);
-            
+
             foreach (TTFObject obj in _collisionObjects)
             {
                 obj.Initialize(graphics);
@@ -86,7 +87,7 @@ namespace TableTopFury.Objects
             _battleThemes.Add(content.Load<Song>("FightLoop3"));
             _battleThemes.Add(content.Load<Song>("FightLoop4"));
 
-            MediaPlayer.Play(_battleThemes[new Random().Next(0,_battleThemes.Count)]);
+            MediaPlayer.Play(_battleThemes[new Random().Next(0, _battleThemes.Count)]);
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume = 0.2f;
 
@@ -150,7 +151,7 @@ namespace TableTopFury.Objects
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
-            
+
 
             foreach (TTFObject obj in _uiObjects)
             {

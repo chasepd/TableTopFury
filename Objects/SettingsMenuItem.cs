@@ -9,23 +9,23 @@ using TableTopFury.Modes;
 
 namespace TableTopFury.Objects
 {
-    internal class VersusMenuItem : MainMenuItem
+    internal class SettingsMenuItem : MainMenuItem
     {
-        public VersusMenuItem() : base()
+        public SettingsMenuItem() : base()
         {
-            _menuPosition = 7;
+            _menuPosition = 8;
         }
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("MainMenu-Versus");
+            texture = content.Load<Texture2D>("MainMenu-Settings");
         }
 
         public override Mode CheckForNextScreen()
         {
             if (_navigate)
             {
-                return new VersusMode();
+                return null;
             }
             return null;
         }

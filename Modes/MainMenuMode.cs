@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TableTopFury.Objects;
 
-namespace TableTopFury.Objects
+namespace TableTopFury.Modes
 {
     internal class MainMenuMode : Mode
     {
@@ -22,7 +23,7 @@ namespace TableTopFury.Objects
         {
             _selectedItem = 0;
             _selectionTimeTracker = 0.0;
-            _menuItems = new List<MainMenuItem>() { new SinglePlayerMenuItem(), new VersusMenuItem() };
+            _menuItems = new List<MainMenuItem>() { new SinglePlayerMenuItem(), new VersusMenuItem(), new SettingsMenuItem(), new ExitMenuItem() };
             _nextMode = null;
 
             foreach (MainMenuItem item in _menuItems)

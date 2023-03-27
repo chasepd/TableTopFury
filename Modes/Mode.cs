@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TableTopFury.Objects;
 
-namespace TableTopFury
+namespace TableTopFury.Modes
 {
     internal abstract class Mode
     {
 
         private List<TTFObject> _onScreenObjects;
-        public Mode() 
+        public Mode()
         {
             _onScreenObjects = new List<TTFObject>();
         }
@@ -42,7 +42,7 @@ namespace TableTopFury
 
         public virtual void Update(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            foreach(TTFObject obj in _onScreenObjects)
+            foreach (TTFObject obj in _onScreenObjects)
             {
                 obj.Update(gameTime, graphics, _onScreenObjects);
             }

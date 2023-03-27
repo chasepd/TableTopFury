@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TableTopFury.Objects;
 
-namespace TableTopFury.Objects
+namespace TableTopFury.Modes
 {
     internal abstract class GameplayMode : Mode
     {

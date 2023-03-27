@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using TableTopFury.Objects;
+using TableTopFury.Modes;
 
 namespace TableTopFury
 {
@@ -53,6 +53,10 @@ namespace TableTopFury
 
             if(_nextMode != null)
             {
+                if(_nextMode is ExitMode)
+                {
+                    Exit();
+                }
                 _currentMode = _nextMode;                
                 _currentMode.LoadContent(Content);
                 _currentMode.Initialize(_graphics);
