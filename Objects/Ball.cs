@@ -69,6 +69,7 @@ namespace TableTopFury.Objects
             rotation = 0;
             framesPerRow = explodeFrames;
             _explosionSound.CreateInstance().Play();
+            scaleModifier *= 2;
         }
 
         private int GetLeftEdge(GraphicsDeviceManager graphics)
@@ -149,7 +150,7 @@ namespace TableTopFury.Objects
                     _ballAnimateTimeTracker = 0.0;
                 } 
 
-                if (position.X < GameState.Paddles[0].position.X + (GameState.Paddles[0].GetWidth() / 2))
+                if (position.X < GameState.Paddles[0].position.X)
                 {
                     Explode();
                 }
@@ -327,7 +328,8 @@ namespace TableTopFury.Objects
             else
             {
                 animationFrame = 1;
-                ResetBall();
+                scaleModifier /= 2;
+                ResetBall();                
             }
         }
 

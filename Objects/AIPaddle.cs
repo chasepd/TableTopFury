@@ -80,15 +80,15 @@ namespace TableTopFury.Objects
         {
 
             Ball closestBall = GetClosestBall();
-            if (closestBall.speedY == lastRecordedBallYSpeed && closestBall.speedX == lastRecordedBallXSpeed)
-            {
-                return finalBallY;
-            }
-            else
-            {
-                lastRecordedBallYSpeed = closestBall.speedY;
-                lastRecordedBallXSpeed = closestBall.speedX;
-            }
+            //if (closestBall.speedY == lastRecordedBallYSpeed && closestBall.speedX == lastRecordedBallXSpeed)
+            //{
+            //    return finalBallY;
+            //}
+            //else
+            //{
+            //    lastRecordedBallYSpeed = closestBall.speedY;
+            //    lastRecordedBallXSpeed = closestBall.speedX;
+            //}
 
             Paddle otherPaddle = GameState.Paddles[0];
 

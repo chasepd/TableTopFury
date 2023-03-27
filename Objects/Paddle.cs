@@ -77,7 +77,7 @@ namespace TableTopFury.Objects
                     position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10), graphics.PreferredBackBufferHeight / 2);
                 }
             }
-            absoluteSpeed = (int)(40 * scaleModifier) * 4;
+            absoluteSpeed = (int)(20 * scaleModifier) * 4;
             speedStep = (int)(1 * scaleModifier) * 4;
             boostStep = (int)(5 * scaleModifier) * 4;
 
