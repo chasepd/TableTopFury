@@ -90,25 +90,60 @@ namespace TableTopFury.Objects
                 lastRecordedBallXSpeed = closestBall.speedX;
             }
 
+            Paddle otherPaddle = GameState.Paddles[0];
+
+            if(playerNumber == 1)
+            {
+                otherPaddle = GameState.Paddles[1];
+            }
+
             int currentX = (int)closestBall.position.X;
             int currentY = (int)closestBall.position.Y;
             int ySpeed = closestBall.speedY;
+            int xSpeed = closestBall.speedX;
 
-
-            while (currentX > GameState.Paddles[0].position.X && currentX < GameState.Paddles[1].position.X)
-            {
-                if(GameState.Board.GetCollisionIntensity(
-                    new Rectangle(
-                        currentX, 
-                        currentY, 
+            Rectangle collisionArea = new Rectangle(
+                        currentX - (int)(closestBall.texture.Width / 2 / closestBall.framesPerRow * closestBall.scaleModifier),
+                        currentY - (int)(closestBall.texture.Height / 2 / closestBall.frameRows * closestBall.scaleModifier),
                         (int)(closestBall.texture.Width / closestBall.framesPerRow * closestBall.scaleModifier),
                         (int)(closestBall.texture.Height / closestBall.frameRows * closestBall.scaleModifier)
-                        )) != 0)
+                        );
+
+
+            Rectangle ourSide;
+
+            if (playerNumber == 1) {
+                ourSide = new Rectangle(0, 0,
+                    (int)(GameState.Board.position.X - (GameState.Board.GetWidth() / 2)),
+                    (int)(GameState.Board.GetHeight() + GameState.Board.position.Y * 2));
+            }
+            else
+            {
+                ourSide = new Rectangle((int)(position.X - (GetWidth()/2)), 0,
+                    (int)GetWidth(),
+                    (int)(GameState.Board.GetHeight() + GameState.Board.position.Y * 2));
+            }
+
+            while (!ourSide.Intersects(collisionArea))
+            {
+                if(GameState.Board.GetCollisionIntensity(collisionArea) != 0)
                 {
                     ySpeed *= -1;
                 }
+
+                if(Math.Abs(currentX - otherPaddle.position.X) <= otherPaddle.GetWidth() / 2)
+                {
+                    return currentY;
+                }
                 currentX += closestBall.speedX;
                 currentY += ySpeed;
+
+                collisionArea = new Rectangle(
+                        currentX - (int)(closestBall.texture.Width / 2 / closestBall.framesPerRow * closestBall.scaleModifier),
+                        currentY - (int)(closestBall.texture.Height / 2 / closestBall.frameRows * closestBall.scaleModifier),
+                        (int)(closestBall.texture.Width / closestBall.framesPerRow * closestBall.scaleModifier),
+                        (int)(closestBall.texture.Height / closestBall.frameRows * closestBall.scaleModifier)
+                        );
             }
             finalBallY = currentY;
             return currentY;
