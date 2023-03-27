@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,10 @@ namespace TableTopFury.Objects
         protected bool boosting;
         protected const double movementUpdateDelay = 0;
         protected double movementUpdateTimeTracker;
+        private int finalBallY;
+        private int lastRecordedBallYSpeed;
+        private int lastRecordedBallXSpeed;
+
         public AIPaddle(int playerNumber, int difficultyLevel) : base(playerNumber)
         {
             this.difficultyLevel = difficultyLevel;
@@ -25,6 +30,9 @@ namespace TableTopFury.Objects
             movingUpward = false;
             boosting = false;
             movementUpdateTimeTracker = 0.0;
+            finalBallY = -101010;
+            lastRecordedBallXSpeed = -101010;
+            lastRecordedBallYSpeed = -101010;
         }
 
         public override void LoadContent(ContentManager content)
@@ -36,6 +44,10 @@ namespace TableTopFury.Objects
         private Ball GetClosestBall()
         {
             var balls = GameState.Balls;
+            if (balls.Count == 1)
+            {
+                return balls[0];
+            }
             Ball closestBall = null;
             foreach (Ball ball in balls)
             {
@@ -68,6 +80,15 @@ namespace TableTopFury.Objects
         {
 
             Ball closestBall = GetClosestBall();
+            if (closestBall.speedY == lastRecordedBallYSpeed && closestBall.speedX == lastRecordedBallXSpeed)
+            {
+                return finalBallY;
+            }
+            else
+            {
+                lastRecordedBallYSpeed = closestBall.speedY;
+                lastRecordedBallXSpeed = closestBall.speedX;
+            }
 
             int currentX = (int)closestBall.position.X;
             int currentY = (int)closestBall.position.Y;
@@ -88,8 +109,8 @@ namespace TableTopFury.Objects
                 }
                 currentX += closestBall.speedX;
                 currentY += ySpeed;
-            }           
-            
+            }
+            finalBallY = currentY;
             return currentY;
         }
 
@@ -137,6 +158,12 @@ namespace TableTopFury.Objects
 
         protected bool BoosterCheck()
         {
+            var finalLocation = DetermineBallFinalHeight();
+            if (finalLocation < position.Y - (GameState.Board.GetHeight() / 3) ||
+                finalLocation > position.Y + GetHeight() + (GameState.Board.GetHeight() / 3))
+            {
+                return true;
+            }
             return false;
         }
 

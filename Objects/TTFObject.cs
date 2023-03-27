@@ -32,13 +32,13 @@ namespace TableTopFury.Objects
 
         public abstract int GetCollisionIntensity(Rectangle other);
 
-        public int GetWidth()
+        public float GetWidth()
         {
-            return (int)(texture.Width / framesPerRow * scaleModifier);
+            return texture.Width / framesPerRow * scaleModifier;
         }
-        public int GetHeight()
+        public float GetHeight()
         {
-            return (int)(texture.Height / frameRows * scaleModifier);
+            return texture.Height / frameRows * scaleModifier;
         }
     }
 }

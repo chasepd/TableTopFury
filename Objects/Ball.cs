@@ -149,11 +149,11 @@ namespace TableTopFury.Objects
                     _ballAnimateTimeTracker = 0.0;
                 } 
 
-                if (position.X > GetRightEdge(graphics))
+                if (position.X < GameState.Paddles[0].position.X + (GameState.Paddles[0].GetWidth() / 2))
                 {
                     Explode();
                 }
-                if (position.X < GetLeftEdge(graphics))
+                if (position.X > GameState.Paddles[1].position.X)
                 {
                     Explode();         
                 }
@@ -193,7 +193,7 @@ namespace TableTopFury.Objects
                         int collisionResultAfterMove = obj.GetCollisionIntensity(new Rectangle(
                             (int)(position.X + (speedY * scaleModifier) - (this.GetWidth() / 2.0)),
                             (int)(position.Y + (speedY * scaleModifier) - (this.GetHeight() / 2.0)),
-                            this.GetWidth(), this.GetHeight()));
+                            (int)this.GetWidth(), (int)this.GetHeight()));
 
                         if (collisionResult == 0 && collisionResultAfterMove != 0 && obj is Paddle)
                         {

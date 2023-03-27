@@ -270,7 +270,7 @@ namespace TableTopFury.Objects
 
         public override int GetCollisionIntensity(Rectangle other)
         {
-            Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, GetWidth(), GetHeight());
+            Rectangle thisSprite = new Rectangle((int)position.X - paddleWidthModifier, (int)position.Y - paddleHeightModifier, (int)GetWidth(), (int)GetHeight());
             Rectangle topEdge = new Rectangle(
                 (int)(position.X - paddleWidthModifier + (paddleWidthModifier * 0.2f)),
                 (int)position.Y - paddleHeightModifier,
