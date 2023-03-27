@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TableTopFury.Menus;
 using TableTopFury.Menus.Settings;
 using TableTopFury.Menus.SinglePlayer;
+using TableTopFury.Menus.Versus;
 using TableTopFury.Objects;
 
 namespace TableTopFury.Modes
@@ -127,6 +128,9 @@ namespace TableTopFury.Modes
                     break;
                 case MenuSwitchMode.MenuToSwitchTo.SinglePlayer:
                     _menuItems = new List<MainMenuItem>() { new CampaignMenuItem(), new ResetProgressMenuItem(), new BackMenuItem(6) };
+                    break;
+                case MenuSwitchMode.MenuToSwitchTo.Versus:
+                    _menuItems = new List<MainMenuItem>() { new TwoPlayersMenuItem(), new VsAiMenuItem(), new BackMenuItem(6) };
                     break;
             }
 

@@ -7,25 +7,25 @@ using System.Text;
 using System.Threading.Tasks;
 using TableTopFury.Modes;
 
-namespace TableTopFury.Menus
+namespace TableTopFury.Menus.Versus
 {
-    internal class VersusMenuItem : MainMenuItem
+    internal class VsAiMenuItem : MainMenuItem
     {
-        public VersusMenuItem() : base()
+        public VsAiMenuItem() : base()
         {
-            _menuPosition = 7;
+            _menuPosition = 5;
         }
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("MainMenu-Versus");
+            texture = content.Load<Texture2D>("VersusMenu-VSBot");
         }
 
         public override Mode CheckForNextScreen()
         {
             if (_navigate)
             {
-                return new MenuSwitchMode(MenuSwitchMode.MenuToSwitchTo.Versus);
+                return new VersusMode(true);
             }
             return null;
         }

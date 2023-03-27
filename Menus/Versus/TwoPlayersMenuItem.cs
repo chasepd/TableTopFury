@@ -7,25 +7,25 @@ using System.Text;
 using System.Threading.Tasks;
 using TableTopFury.Modes;
 
-namespace TableTopFury.Menus
+namespace TableTopFury.Menus.Versus
 {
-    internal class VersusMenuItem : MainMenuItem
+    internal class TwoPlayersMenuItem : MainMenuItem
     {
-        public VersusMenuItem() : base()
+        public TwoPlayersMenuItem() : base()
         {
-            _menuPosition = 7;
+            _menuPosition = 4;
         }
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("MainMenu-Versus");
+            texture = content.Load<Texture2D>("VersusMenu-2Players");
         }
 
         public override Mode CheckForNextScreen()
         {
             if (_navigate)
             {
-                return new MenuSwitchMode(MenuSwitchMode.MenuToSwitchTo.Versus);
+                return new VersusMode(false);
             }
             return null;
         }

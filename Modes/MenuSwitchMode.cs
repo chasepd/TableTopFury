@@ -12,7 +12,8 @@ namespace TableTopFury.Modes
         {
             MainMenu,
             Settings,
-            SinglePlayer
+            SinglePlayer,
+            Versus
         }
 
         private MenuToSwitchTo _switchTo;

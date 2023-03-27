@@ -27,7 +27,7 @@ namespace TableTopFury.Modes
         private const int maxMessageFrames = 2;
         private List<Song> _battleThemes;
 
-        public VersusMode()
+        public VersusMode(bool ai)
         {
             _ballExplosionTracker = new Dictionary<Ball, bool>();
             _lifeBars = new Dictionary<int, LifeBar>();
@@ -36,7 +36,11 @@ namespace TableTopFury.Modes
             _lifeBars[1] = _player1LifeBar;
             _lifeBars[2] = _player2LifeBar;
             Paddle _player1Paddle = new PlayerPaddle(1);
-            Paddle _player2Paddle = new AIPaddle(2, 10);//new PlayerPaddle(2);            
+            Paddle _player2Paddle = new PlayerPaddle(2);
+            if (ai)
+            {
+                _player2Paddle = new AIPaddle(2, 10);
+            }
 
             Ball ball = new RegularBall();
             _ballExplosionTracker[ball] = false;
