@@ -50,9 +50,20 @@ namespace TableTopFury.Modes
             var kstate = Keyboard.GetState();
 
             Mode nextScreenCheck = _menuItems[_selectedItem].CheckForNextScreen();
-            if (nextScreenCheck != null)
+            if (nextScreenCheck != null && nextScreenCheck is not MenuSwitchMode)
             {
                 _nextMode = nextScreenCheck;
+            }
+            else if(nextScreenCheck is MenuSwitchMode)
+            {
+                MenuSwitchMode.MenuToSwitchTo nextMenu = ((MenuSwitchMode)nextScreenCheck).GetNextMenu();
+                switch(nextMenu)
+                {
+                    case MenuSwitchMode.MenuToSwitchTo.Settings:
+                        break;
+                    case MenuSwitchMode.MenuToSwitchTo.SinglePlayer:
+                        break;
+                }
             }
             else
             {
