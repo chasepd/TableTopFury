@@ -15,11 +15,13 @@ namespace TableTopFury.Objects
         Stack<LifeIndicator> lifeIndicators;
         const int maxLife = 7;
         int playerNum;
+        List<LifeIndicator> explodingIndicators;
 
         public LifeBar(int playerNum) : base() 
         {
             this.playerNum = playerNum;
             lifeIndicators = new Stack<LifeIndicator>();
+            explodingIndicators = new List<LifeIndicator>();
 
             for (int i = 0; i < maxLife; i++)
             {
@@ -43,11 +45,34 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override void Update(List<TTFObject> objects) { }
+        public override void Update(List<TTFObject> objects) 
+        {
+            LifeIndicator explodedIndicator = null;
+            foreach (LifeIndicator indicator in lifeIndicators)
+            {
+                indicator.Update(objects);
+            }
+            foreach (LifeIndicator indicator in explodingIndicators)
+            {
+                if (indicator.IsDoneExploding())
+                {
+                    explodedIndicator = indicator;
+                }
+                indicator.Update(objects);
+            }
+            if (explodedIndicator is not null)
+            {
+                explodingIndicators.Remove(explodedIndicator);
+            }   
+        }
 
         public override void Draw()
         {
             foreach (LifeIndicator indicator in lifeIndicators)
+            {                
+                indicator.Draw();
+            }
+            foreach (LifeIndicator indicator in explodingIndicators)
             {
                 indicator.Draw();
             }
@@ -58,7 +83,9 @@ namespace TableTopFury.Objects
         {
             for (int i = 0; i < amount && lifeIndicators.Count > 0; i++)
             {
-                lifeIndicators.Pop();
+                LifeIndicator affected = lifeIndicators.Pop();
+                affected.Explode();
+                explodingIndicators.Add(affected);
             }
             if (lifeIndicators.Count == 0)
             {
