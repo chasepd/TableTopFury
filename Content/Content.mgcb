@@ -49,6 +49,12 @@
 /processorParam:TextureFormat=Color
 /build:BoosterFlames.png
 
+#begin BoosterSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:BoosterSound.wav
+
 #begin clink1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

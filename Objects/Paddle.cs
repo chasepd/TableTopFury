@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,6 +33,8 @@ namespace TableTopFury.Objects
         protected Rectangle boosterSourceRectangle;
         protected int boosterAnimationFrame;
         protected double boosterTimeTracker;
+        protected SoundEffect boosterSoundEffect;
+        protected SoundEffectInstance boosterSoundInstance;
 
         public Paddle(int playerNumber)
         {
@@ -100,6 +104,7 @@ namespace TableTopFury.Objects
             normalBoosterTexture = content.Load<Texture2D>("BoosterFlames");
             ultraBoosterTexture = content.Load<Texture2D>("UltraBoosterFlames");
             boosterTexture = normalBoosterTexture;
+            boosterSoundEffect = content.Load<SoundEffect>("BoosterSound");
         }
 
         protected void UpwardMovement(bool boost)
@@ -215,6 +220,22 @@ namespace TableTopFury.Objects
 
             sourceRectangle = new Rectangle((texture.Width / framesPerRow) * (animationFrame - 1), 0, texture.Width / framesPerRow, texture.Height);
             boosterSourceRectangle = new Rectangle(boosterTexture.Width / boosterFramesPerRow * (boosterAnimationFrame - 1), 0, boosterTexture.Width/ boosterFramesPerRow, boosterTexture.Height);
+            if(speedY != 0)
+            {
+                if (boosterSoundInstance is null)
+                {
+                    boosterSoundInstance = boosterSoundEffect.CreateInstance();
+                    boosterSoundInstance.Play();
+                }
+            }
+            else
+            {
+                if (boosterSoundInstance is not null)
+                {
+                    boosterSoundInstance.Stop();
+                    boosterSoundInstance = null;
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)

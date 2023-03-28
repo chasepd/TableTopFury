@@ -20,7 +20,7 @@ namespace TableTopFury.Objects
         private int _preferredBackBufferHeight;
         public bool isExploding;
         const int explodeFrames = 14;
-        const int ballFrames = 9;
+        const int ballFrames = 10;
         protected ContentManager _contentManager;
         public Texture2D explosionTexture;
         public Texture2D ballTexture;
@@ -53,7 +53,7 @@ namespace TableTopFury.Objects
 
         public override void Initialize(GraphicsDeviceManager graphics)
         {
-            scaleModifier = (float)(graphics.PreferredBackBufferHeight / 480.0 / 3.0);
+            scaleModifier = (float)(graphics.PreferredBackBufferHeight / 480.0 / 2.0);
             position = new Vector2(graphics.PreferredBackBufferWidth / 2 - ((texture.Width * scaleModifier / framesPerRow) / 2),
                graphics.PreferredBackBufferHeight / 2 - ((texture.Height * scaleModifier / frameRows) / 2));
 
@@ -316,7 +316,7 @@ namespace TableTopFury.Objects
                  position,
                  sourceRectangle,
                  Color.White,
-                 MathHelper.ToRadians(rotation),
+                 0,//MathHelper.ToRadians(rotation),
                  new Vector2(texture.Width / (framesPerRow * 2), texture.Height / (frameRows * 2)),
                  scaleModifier,
                  SpriteEffects.None,
