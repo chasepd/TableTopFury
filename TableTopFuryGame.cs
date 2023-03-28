@@ -40,7 +40,7 @@ namespace TableTopFury
 
         protected override void Update(GameTime gameTime)
         {
-                        
+            GameState.GameTime = gameTime;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -55,8 +55,8 @@ namespace TableTopFury
                     Exit();
                 }
                 _currentMode = _nextMode;                
-                _currentMode.LoadContent(Content);
-                _currentMode.Initialize(_graphics);
+                _currentMode.LoadContent();
+                _currentMode.Initialize();
                 GameState.CurrentMode = _nextMode;
             }
 
@@ -69,6 +69,7 @@ namespace TableTopFury
             
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
+            GameState.CurrentSpriteBatch = _spriteBatch;
             _currentMode.Draw(gameTime, _spriteBatch, _graphics);
             
             _spriteBatch.End();            

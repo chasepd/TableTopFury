@@ -32,10 +32,10 @@ namespace TableTopFury.Modes
             InitializeMenu();            
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            base.LoadContent(content);
-            _menuTheme = content.Load<Song>("MenuLoop");
+            base.LoadContent();
+            _menuTheme = GameState.Content.Load<Song>("MenuLoop");
 
             MediaPlayer.Play(_menuTheme);
             MediaPlayer.IsRepeating = true;
@@ -137,8 +137,8 @@ namespace TableTopFury.Modes
             ClearOnscreenObjects();
             foreach (MainMenuItem item in _menuItems)
             {
-                item.Initialize(GameState.Graphics);
-                item.LoadContent(GameState.Content);
+                item.Initialize();
+                item.LoadContent();
                 AddOnscreenObject(item);
             }
             _menuItems[_selectedItem].Select();

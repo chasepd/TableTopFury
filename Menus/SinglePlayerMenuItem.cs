@@ -17,9 +17,9 @@ namespace TableTopFury.Menus
             _menuPosition = 6;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            texture = content.Load<Texture2D>("MainMenu-SinglePlayer");
+            texture = GameState.Content.Load<Texture2D>("MainMenu-SinglePlayer");
         }
 
         public override Mode CheckForNextScreen()

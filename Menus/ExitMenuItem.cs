@@ -18,9 +18,9 @@ namespace TableTopFury.Menus
             _menuPosition = 9;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            texture = content.Load<Texture2D>("MainMenu-Exit");
+            texture = GameState.Content.Load<Texture2D>("MainMenu-Exit");
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)

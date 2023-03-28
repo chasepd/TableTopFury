@@ -35,10 +35,10 @@ namespace TableTopFury.Objects
             lastRecordedBallYSpeed = -101010;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            base.LoadContent(content);
-            texture = content.Load<Texture2D>("BasicPaddle");
+            base.LoadContent();
+            texture = GameState.Content.Load<Texture2D>("BasicPaddle");
         }
 
         private Ball GetClosestBall()

@@ -29,19 +29,19 @@ namespace TableTopFury.Modes
             _onScreenObjects?.Clear();
         }
 
-        public virtual void Initialize(GraphicsDeviceManager graphics)
+        public virtual void Initialize()
         {
             foreach (TTFObject obj in _onScreenObjects)
             {
-                obj.Initialize(graphics);
+                obj.Initialize();
             }
         }
 
-        public virtual void LoadContent(ContentManager content)
+        public virtual void LoadContent()
         {
             foreach (TTFObject obj in _onScreenObjects)
             {
-                obj.LoadContent(content);
+                obj.LoadContent();
             }
         }
 

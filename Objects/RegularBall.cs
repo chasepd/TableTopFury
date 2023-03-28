@@ -15,17 +15,16 @@ namespace TableTopFury.Objects
         public RegularBall() : base() { }
 
         public RegularBall(Ball previous) : base(previous) { }
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            base.LoadContent(content);
-            ballTexture = content.Load<Texture2D>("RegularBall");
-            explosionTexture = _contentManager.Load<Texture2D>("Explosion");
+            ballTexture = GameState.Content.Load<Texture2D>("RegularBall");
+            explosionTexture = GameState.Content.Load<Texture2D>("Explosion");
             texture = ballTexture;
-            _explosionSound = _contentManager.Load<SoundEffect>("ExplosionSound");
-            _contactSounds.Add(_contentManager.Load<SoundEffect>("clink1"));
-            _contactSounds.Add(_contentManager.Load<SoundEffect>("clink2"));
-            _contactSounds.Add(_contentManager.Load<SoundEffect>("thud2"));
-            _contactSounds.Add(_contentManager.Load<SoundEffect>("thud3"));
+            _explosionSound = GameState.Content.Load<SoundEffect>("ExplosionSound");
+            _contactSounds.Add(GameState.Content.Load<SoundEffect>("clink1"));
+            _contactSounds.Add(GameState.Content.Load<SoundEffect>("clink2"));
+            _contactSounds.Add(GameState.Content.Load<SoundEffect>("thud2"));
+            _contactSounds.Add(GameState.Content.Load<SoundEffect>("thud3"));
         }
 
         public override int DamageValue()

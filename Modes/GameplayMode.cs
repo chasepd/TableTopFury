@@ -33,28 +33,28 @@ namespace TableTopFury.Modes
             }
         }
 
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
             foreach (TTFObject obj in _collisionObjects)
             {
-                obj.Initialize(graphics);
+                obj.Initialize();
             }
 
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.Initialize(graphics);
+                obj.Initialize();
             }
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
             foreach (TTFObject obj in _collisionObjects)
             {
-                obj.LoadContent(content);
+                obj.LoadContent();
             }
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.LoadContent(content);
+                obj.LoadContent();
             }
         }
 

@@ -54,31 +54,31 @@ namespace TableTopFury.Objects
             this.playerNumber = playerNumber;
         }
 
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
-            scaleModifier = (float)(0.25 * graphics.PreferredBackBufferHeight / 480);
+            scaleModifier = (float)(0.25 * GameState.Graphics.PreferredBackBufferHeight / 480);
             paddleWidthModifier = (int)(scaleModifier * 64);
             paddleHeightModifier = (int)(scaleModifier * 192);
-            if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
+            if (GameState.Graphics.PreferredBackBufferWidth * 9 > GameState.Graphics.PreferredBackBufferHeight * 16)
             {
                 if (playerNumber == 1)
                 {
-                    position = new Vector2(paddleWidthModifier + 10 + (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2, graphics.PreferredBackBufferHeight / 2);
+                    position = new Vector2(paddleWidthModifier + 10 + (GameState.Graphics.PreferredBackBufferWidth - (16 * GameState.Graphics.PreferredBackBufferHeight) / 9) / 2, GameState.Graphics.PreferredBackBufferHeight / 2);
                 }
                 else
                 {
-                    position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10) - (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2, graphics.PreferredBackBufferHeight / 2);
+                    position = new Vector2(GameState.Graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10) - (GameState.Graphics.PreferredBackBufferWidth - (16 * GameState.Graphics.PreferredBackBufferHeight) / 9) / 2, GameState.Graphics.PreferredBackBufferHeight / 2);
                 }
             }
             else
             {
                 if (playerNumber == 1)
                 {
-                    position = new Vector2(paddleWidthModifier + 10, graphics.PreferredBackBufferHeight / 2);
+                    position = new Vector2(paddleWidthModifier + 10, GameState.Graphics.PreferredBackBufferHeight / 2);
                 }
                 else
                 {
-                    position = new Vector2(graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10), graphics.PreferredBackBufferHeight / 2);
+                    position = new Vector2(GameState.Graphics.PreferredBackBufferWidth - (paddleWidthModifier + 10), GameState.Graphics.PreferredBackBufferHeight / 2);
                 }
             }
             absoluteSpeed = (int)(20 * scaleModifier) * 4;
@@ -99,12 +99,12 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            normalBoosterTexture = content.Load<Texture2D>("BoosterFlames");
-            ultraBoosterTexture = content.Load<Texture2D>("UltraBoosterFlames");
+            normalBoosterTexture = GameState.Content.Load<Texture2D>("BoosterFlames");
+            ultraBoosterTexture = GameState.Content.Load<Texture2D>("UltraBoosterFlames");
             boosterTexture = normalBoosterTexture;
-            boosterSoundEffect = content.Load<SoundEffect>("BoosterSound");
+            boosterSoundEffect = GameState.Content.Load<SoundEffect>("BoosterSound");
         }
 
         protected void UpwardMovement(bool boost)

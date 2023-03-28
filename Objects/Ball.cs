@@ -16,12 +16,11 @@ namespace TableTopFury.Objects
         private double _ballAnimateTimeTracker;
         private double _rotationTimeTracker;
         private bool _recentlyCollided;
-        private int _preferredBackBufferWidth;
-        private int _preferredBackBufferHeight;
+        //private int _preferredBackBufferWidth;
+        //private int _preferredBackBufferHeight;
         public bool isExploding;
         const int explodeFrames = 14;
         const int ballFrames = 10;
-        protected ContentManager _contentManager;
         public Texture2D explosionTexture;
         public Texture2D ballTexture;
         protected SoundEffect _explosionSound;
@@ -51,14 +50,14 @@ namespace TableTopFury.Objects
             _recentlyCollided = false;
         }
 
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
-            scaleModifier = (float)(graphics.PreferredBackBufferHeight / 480.0 / 2.0);
-            position = new Vector2(graphics.PreferredBackBufferWidth / 2 - ((texture.Width * scaleModifier / framesPerRow) / 2),
-               graphics.PreferredBackBufferHeight / 2 - ((texture.Height * scaleModifier / frameRows) / 2));
+            scaleModifier = (float)(GameState.Graphics.PreferredBackBufferHeight / 480.0 / 2.0);
+            position = new Vector2(GameState.Graphics.PreferredBackBufferWidth / 2 - ((texture.Width * scaleModifier / framesPerRow) / 2),
+               GameState.Graphics.PreferredBackBufferHeight / 2 - ((texture.Height * scaleModifier / frameRows) / 2));
 
-            _preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
-            _preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
+            //_preferredBackBufferHeight = graphics.PreferredBackBufferHeight;
+            //_preferredBackBufferWidth = graphics.PreferredBackBufferWidth;
             ResetBall();
         }        
 
@@ -96,11 +95,6 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override void LoadContent(ContentManager content)
-        {
-            _contentManager = content;
-        }
-
         public Rectangle GetCollisionBoundaries()
         {
             //Position appears to be returning center. Remove half the ball size to get the correct coordinates for the top left of the collision rectangle.
@@ -134,7 +128,7 @@ namespace TableTopFury.Objects
                     isExploding = false;
                     texture = ballTexture;
                     framesPerRow = ballFrames;
-                    position = new Vector2(_preferredBackBufferWidth/2, _preferredBackBufferHeight/2);
+                    position = new Vector2(GameState.Graphics.PreferredBackBufferWidth/2, GameState.Graphics.PreferredBackBufferHeight/2);
                 }
             }
             else
@@ -351,8 +345,8 @@ namespace TableTopFury.Objects
         {
             animationFrame = 1;
             rotation = 0;
-            position = new Vector2(_preferredBackBufferWidth / 2,
-             _preferredBackBufferHeight / 2);
+            position = new Vector2(GameState.Graphics.PreferredBackBufferWidth / 2,
+             GameState.Graphics.PreferredBackBufferHeight / 2);
             speedX = 5;
             speedX += new Random().Next(0, 20);
             if (new Random().Next(1, 3) == 2)
@@ -370,7 +364,7 @@ namespace TableTopFury.Objects
             {
                 return 0;
             }
-            else if (position.X > _preferredBackBufferWidth / 2)
+            else if (position.X > GameState.Graphics.PreferredBackBufferWidth / 2)
             {
                 return 2;
             }

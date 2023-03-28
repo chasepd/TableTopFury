@@ -18,15 +18,15 @@ namespace TableTopFury.Objects
             animationFrame = 1;
         }
 
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
-            scaleModifier = (float)(graphics.PreferredBackBufferHeight / 1440.0 * 0.9);
-            position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2);            
+            scaleModifier = (float)(GameState.Graphics.PreferredBackBufferHeight / 1440.0 * 0.9);
+            position = new Vector2(GameState.Graphics.PreferredBackBufferWidth / 2, GameState.Graphics.PreferredBackBufferHeight / 2);            
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            texture = content.Load<Texture2D>("BoardBackground");
+            texture = GameState.Content.Load<Texture2D>("BoardBackground");
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)

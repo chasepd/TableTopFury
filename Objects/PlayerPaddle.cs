@@ -16,10 +16,10 @@ namespace TableTopFury.Objects
         public PlayerPaddle(int playerNumber) : base(playerNumber) { }
         
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            base.LoadContent(content);
-            texture = content.Load<Texture2D>("BasicPaddle");
+            base.LoadContent();
+            texture = GameState.Content.Load<Texture2D>("BasicPaddle");
         }        
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)

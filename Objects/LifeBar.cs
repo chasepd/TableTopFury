@@ -27,19 +27,19 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
             foreach (LifeIndicator indicator in lifeIndicators)
             {
-                indicator.Initialize(graphics);
+                indicator.Initialize();
             }
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
             foreach (LifeIndicator indicator in lifeIndicators)
             {
-                indicator.LoadContent(content);
+                indicator.LoadContent();
             }
         }
 

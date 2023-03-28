@@ -67,29 +67,29 @@ namespace TableTopFury.Modes
             _messsageAnimationTimer = 0.0;
             _battleThemes = new List<Song>();
         }
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
-            base.Initialize(graphics);
+            base.Initialize();
 
             foreach (TTFObject obj in _collisionObjects)
             {
-                obj.Initialize(graphics);
+                obj.Initialize();
             }
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.Initialize(graphics);
+                obj.Initialize();
             }
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            base.LoadContent(content);
-            _playerOneWinsTexture = content.Load<Texture2D>("Player1Win");
-            _playerTwoWinsTexture = content.Load<Texture2D>("Player2Win");
-            _battleThemes.Add(content.Load<Song>("FightLoop"));
-            _battleThemes.Add(content.Load<Song>("FightLoop2"));
-            _battleThemes.Add(content.Load<Song>("FightLoop3"));
-            _battleThemes.Add(content.Load<Song>("FightLoop4"));
+            base.LoadContent();
+            _playerOneWinsTexture = GameState.Content.Load<Texture2D>("Player1Win");
+            _playerTwoWinsTexture = GameState.Content.Load<Texture2D>("Player2Win");
+            _battleThemes.Add(GameState.Content.Load<Song>("FightLoop"));
+            _battleThemes.Add(GameState.Content.Load<Song>("FightLoop2"));
+            _battleThemes.Add(GameState.Content.Load<Song>("FightLoop3"));
+            _battleThemes.Add(GameState.Content.Load<Song>("FightLoop4"));
 
             MediaPlayer.Play(_battleThemes[new Random().Next(0, _battleThemes.Count)]);
             MediaPlayer.IsRepeating = true;
@@ -97,11 +97,11 @@ namespace TableTopFury.Modes
 
             foreach (TTFObject obj in _collisionObjects)
             {
-                obj.LoadContent(content);
+                obj.LoadContent();
             }
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.LoadContent(content);
+                obj.LoadContent();
             }
         }
 

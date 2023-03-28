@@ -14,10 +14,10 @@ namespace TableTopFury.Menus
         protected float _scale;
         protected const int _maxMenuPositions = 10;
 
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
-            position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / _maxMenuPositions * _menuPosition);
-            _scale = 0.75f * (float)(graphics.PreferredBackBufferHeight / 1440.0);
+            position = new Vector2(GameState.Graphics.PreferredBackBufferWidth / 2, GameState.Graphics.PreferredBackBufferHeight / _maxMenuPositions * _menuPosition);
+            _scale = 0.75f * (float)(GameState.Graphics.PreferredBackBufferHeight / 1440.0);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)

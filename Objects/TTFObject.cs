@@ -22,9 +22,9 @@ namespace TableTopFury.Objects
         public int framesPerRow;
         public int frameRows;
 
-        public abstract void Initialize(GraphicsDeviceManager graphics);
+        public abstract void Initialize();
 
-        public abstract void LoadContent(ContentManager content);
+        public abstract void LoadContent();
 
         public abstract void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects);        
 

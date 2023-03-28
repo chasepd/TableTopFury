@@ -16,9 +16,9 @@ namespace TableTopFury.Menus.Settings
             _menuPosition = 6;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            texture = content.Load<Texture2D>("SettingsMenu-Sound");
+            texture = GameState.Content.Load<Texture2D>("SettingsMenu-Sound");
         }
 
         public override Mode CheckForNextScreen()

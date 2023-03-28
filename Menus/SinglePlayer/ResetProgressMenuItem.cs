@@ -16,9 +16,9 @@ namespace TableTopFury.Menus.SinglePlayer
             _menuPosition = 5;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            texture = content.Load<Texture2D>("SPMenu-ResetProgress");
+            texture = GameState.Content.Load<Texture2D>("SPMenu-ResetProgress");
         }
 
         public override Mode CheckForNextScreen()

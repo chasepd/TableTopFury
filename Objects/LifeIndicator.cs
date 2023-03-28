@@ -23,15 +23,15 @@ namespace TableTopFury.Objects
             this.lifeNum = lifeNum;
         }
 
-        public override void Initialize(GraphicsDeviceManager graphics)
+        public override void Initialize()
         {
             int lifeX;
 
-            scaleModifier = graphics.PreferredBackBufferHeight / 480f;
+            scaleModifier = GameState.Graphics.PreferredBackBufferHeight / 480f;
 
-            if (graphics.PreferredBackBufferWidth * 9 > graphics.PreferredBackBufferHeight * 16)
+            if (GameState.Graphics.PreferredBackBufferWidth * 9 > GameState.Graphics.PreferredBackBufferHeight * 16)
             {
-                sideBuffer += (graphics.PreferredBackBufferWidth - (16 * graphics.PreferredBackBufferHeight) / 9) / 2;
+                sideBuffer += (GameState.Graphics.PreferredBackBufferWidth - (16 * GameState.Graphics.PreferredBackBufferHeight) / 9) / 2;
             }
 
             sideBuffer = (int)(sideBuffer * scaleModifier);
@@ -42,7 +42,7 @@ namespace TableTopFury.Objects
             }
             else
             {
-                lifeX = graphics.PreferredBackBufferWidth - (sideBuffer + ((texture.Width + lifeSpacing) * (lifeNum - 1)));
+                lifeX = GameState.Graphics.PreferredBackBufferWidth - (sideBuffer + ((texture.Width + lifeSpacing) * (lifeNum - 1)));
             }
             position = new Vector2 (lifeX, lifeY);
 
@@ -53,9 +53,9 @@ namespace TableTopFury.Objects
             lifeY += (int)(scaleModifier * texture.Height / 2) - 16;
         }
 
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            texture = content.Load<Texture2D>("Life");
+            texture = GameState.Content.Load<Texture2D>("Life");
         }
 
         public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects) {}

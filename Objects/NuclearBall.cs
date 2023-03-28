@@ -13,11 +13,10 @@ namespace TableTopFury.Objects
         public NuclearBall() : base() { }
 
         public NuclearBall(Ball previous) : base(previous) { }
-        public override void LoadContent(ContentManager content)
+        public override void LoadContent()
         {
-            base.LoadContent(content);
-            ballTexture = content.Load<Texture2D>("NuclearBall");
-            explosionTexture = _contentManager.Load<Texture2D>("Explosion");
+            ballTexture = GameState.Content.Load<Texture2D>("NuclearBall");
+            explosionTexture = GameState.Content.Load<Texture2D>("Explosion");
             texture = ballTexture;
         }
 
