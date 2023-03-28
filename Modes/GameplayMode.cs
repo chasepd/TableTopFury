@@ -58,27 +58,27 @@ namespace TableTopFury.Modes
             }
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        public override void Update()
         {
             foreach (TTFObject obj in _collisionObjects)
             {
-                obj.Update(gameTime, graphics, _collisionObjects);
+                obj.Update(_collisionObjects);
             }
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.Update(gameTime, graphics, new List<TTFObject>());
+                obj.Update(new List<TTFObject>());
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public override void Draw()
         {
             foreach (TTFObject obj in _collisionObjects)
             {
-                obj.Draw(gameTime, spriteBatch, graphics);
+                obj.Draw();
             }
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.Draw(gameTime, spriteBatch, graphics);
+                obj.Draw();
             }
         }
     }

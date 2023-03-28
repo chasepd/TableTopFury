@@ -26,9 +26,9 @@ namespace TableTopFury.Objects
 
         public abstract void LoadContent();
 
-        public abstract void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects);        
+        public abstract void Update(List<TTFObject> objects);        
 
-        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics);
+        public abstract void Draw();
 
         public abstract int GetCollisionIntensity(Rectangle other);
 

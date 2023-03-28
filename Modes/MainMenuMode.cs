@@ -42,11 +42,11 @@ namespace TableTopFury.Modes
             MediaPlayer.Volume = 0.2f;
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        public override void Update()
         {
-            base.Update(gameTime, graphics);
+            base.Update();
             var kstate = Keyboard.GetState();
-            _selectionTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+            _selectionTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
 
             Mode nextScreenCheck = _menuItems[_selectedItem].CheckForNextScreen();
             if (nextScreenCheck != null && nextScreenCheck is not MenuSwitchMode && nextScreenCheck is not BackMode)
@@ -67,7 +67,7 @@ namespace TableTopFury.Modes
                     InitializeMenu();
                     foreach (MainMenuItem item in _menuItems)
                     {                        
-                        item.Update(gameTime, graphics, new List<TTFObject>());
+                        item.Update(new List<TTFObject>());
                     }
                 }
             }
@@ -92,7 +92,7 @@ namespace TableTopFury.Modes
                 }
                 else if (kstate.IsKeyDown(Keys.Down) && _selectedItem < _menuItems.Count - 1)
                 {
-                    _selectionTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+                    _selectionTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
                     if (_selectionTimeTracker > _selectionTimeDelay)
                     {
                         _menuItems[_selectedItem].Unselect();

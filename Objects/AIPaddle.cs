@@ -202,7 +202,7 @@ namespace TableTopFury.Objects
             return false;
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
+        public override void Update(List<TTFObject> objects)
         {          
             if (((playerNumber == 1 && GetClosestBall().speedX < 0) || (playerNumber == 2 && GetClosestBall().speedX > 0))) // && movementUpdateTimeTracker > movementUpdateDelay)
             {
@@ -242,7 +242,7 @@ namespace TableTopFury.Objects
                 SlowToStop();
             }
 
-            base.Update(gameTime, graphics, objects);
+            base.Update(objects);
         }
 
     }

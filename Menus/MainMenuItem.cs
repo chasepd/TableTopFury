@@ -20,9 +20,9 @@ namespace TableTopFury.Menus
             _scale = 0.75f * (float)(GameState.Graphics.PreferredBackBufferHeight / 1440.0);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public override void Draw()
         {
-            spriteBatch.Draw(
+            GameState.CurrentSpriteBatch.Draw(
                  texture,
                  position,
                  sourceRectangle,

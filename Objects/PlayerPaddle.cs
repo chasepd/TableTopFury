@@ -22,7 +22,7 @@ namespace TableTopFury.Objects
             texture = GameState.Content.Load<Texture2D>("BasicPaddle");
         }        
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
+        public override void Update(List<TTFObject> objects)
         {            
             var kstate = Keyboard.GetState();
             if (playerNumber == 1)
@@ -56,7 +56,7 @@ namespace TableTopFury.Objects
                 }
             }
 
-            base.Update(gameTime, graphics, objects);
+            base.Update(objects);
         }
         
     }

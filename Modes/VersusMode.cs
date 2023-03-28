@@ -105,19 +105,19 @@ namespace TableTopFury.Modes
             }
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        public override void Update()
         {
-            base.Update(gameTime, graphics);
+            base.Update();
 
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.Update(gameTime, graphics, _collisionObjects);
+                obj.Update(_collisionObjects);
             }
             if (!gameEnded)
             {
                 foreach (TTFObject obj in _collisionObjects)
                 {
-                    obj.Update(gameTime, graphics, _collisionObjects);
+                    obj.Update(_collisionObjects);
                     if (obj is Ball)
                     {
                         Ball ball = (Ball)obj;
@@ -140,7 +140,7 @@ namespace TableTopFury.Modes
             }
             else
             {
-                _messsageAnimationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                _messsageAnimationTimer += GameState.GameTime.ElapsedGameTime.TotalSeconds;
 
                 if (_messsageAnimationTimer > 1)
                 {
@@ -153,19 +153,19 @@ namespace TableTopFury.Modes
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public override void Draw()
         {
 
 
             foreach (TTFObject obj in _uiObjects)
             {
-                obj.Draw(gameTime, spriteBatch, graphics);
+                obj.Draw();
             }
             if (!gameEnded)
             {
                 foreach (TTFObject obj in _collisionObjects)
                 {
-                    obj.Draw(gameTime, spriteBatch, graphics);
+                    obj.Draw();
                 }
             }
             else
@@ -180,9 +180,9 @@ namespace TableTopFury.Modes
                     winMessageTexture = _playerOneWinsTexture;
                 }
                 Rectangle sourceRectangle = new Rectangle(winMessageTexture.Width * (_messageFrame - 1), 0, winMessageTexture.Width / 2, winMessageTexture.Height);
-                spriteBatch.Draw(
+                GameState.CurrentSpriteBatch.Draw(
                  winMessageTexture,
-                 new Vector2(graphics.PreferredBackBufferWidth / 2 + winMessageTexture.Width / (maxMessageFrames * 2), graphics.PreferredBackBufferHeight / 2 + winMessageTexture.Height / (maxMessageFrames * 2)),
+                 new Vector2(GameState.Graphics.PreferredBackBufferWidth / 2 + winMessageTexture.Width / (maxMessageFrames * 2), GameState.Graphics.PreferredBackBufferHeight / 2 + winMessageTexture.Height / (maxMessageFrames * 2)),
                  sourceRectangle,
                  Color.White,
                  0,

@@ -55,7 +55,7 @@ namespace TableTopFury.Menus
             return selected;
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
+        public override void Update(List<TTFObject> objects)
         {
             if (selected)
             {
@@ -79,7 +79,7 @@ namespace TableTopFury.Menus
             }
 
             sourceRectangle = new Rectangle(0 + (texture.Width / framesPerRow + 1) * (animationFrame - 1), 0, texture.Width / framesPerRow, texture.Height / frameRows);
-            _timeInExistence += gameTime.ElapsedGameTime.TotalSeconds;
+            _timeInExistence += GameState.GameTime.ElapsedGameTime.TotalSeconds;
         }
 
         public abstract Mode CheckForNextScreen();

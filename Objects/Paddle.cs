@@ -176,11 +176,11 @@ namespace TableTopFury.Objects
         }
 
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
+        public override void Update(List<TTFObject> objects)
         {
-            _animateTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
-            _speedChangeTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
-            boosterTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+            _animateTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
+            _speedChangeTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
+            boosterTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
 
             position.Y += speedY;
             position.X += speedX;
@@ -191,9 +191,9 @@ namespace TableTopFury.Objects
                 speedY = 0;
             }
 
-            if (position.Y > graphics.PreferredBackBufferHeight - paddleHeightModifier)
+            if (position.Y > GameState.Graphics.PreferredBackBufferHeight - paddleHeightModifier)
             {
-                position.Y = graphics.PreferredBackBufferHeight - paddleHeightModifier;
+                position.Y = GameState.Graphics.PreferredBackBufferHeight - paddleHeightModifier;
                 speedY = 0;
             }
 
@@ -238,9 +238,9 @@ namespace TableTopFury.Objects
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public override void Draw()
         {
-            spriteBatch.Draw(
+            GameState.CurrentSpriteBatch.Draw(
                  texture,
                  position,
                  sourceRectangle,
@@ -263,7 +263,7 @@ namespace TableTopFury.Objects
 
             if(speedY < 0 || speedY > 0)
             {
-                spriteBatch.Draw(
+                GameState.CurrentSpriteBatch.Draw(
                  boosterTexture,
                  boosterPosition,
                  boosterSourceRectangle,

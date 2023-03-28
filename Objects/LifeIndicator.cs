@@ -58,11 +58,11 @@ namespace TableTopFury.Objects
             texture = GameState.Content.Load<Texture2D>("Life");
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects) {}
+        public override void Update(List<TTFObject> objects) {}
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public override void Draw()
         {
-            spriteBatch.Draw(
+            GameState.CurrentSpriteBatch.Draw(
                  texture,
                  position,
                  null,

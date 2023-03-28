@@ -105,7 +105,7 @@ namespace TableTopFury.Objects
             
         }
 
-        public override void Update(GameTime gameTime, GraphicsDeviceManager graphics, List<TTFObject> objects)
+        public override void Update(List<TTFObject> objects)
         {
             if (speedX > GameState.Paddles[0].GetWidth())
             {
@@ -116,7 +116,7 @@ namespace TableTopFury.Objects
                 _recentlyCollided = false;
                 _rotationTimeTracker = 0.0;
                 _ballAnimateTimeTracker = 0.0;
-                _explosionTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+                _explosionTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
 
                 if (_explosionTimeTracker >= 0.1)
                 {
@@ -133,7 +133,7 @@ namespace TableTopFury.Objects
             }
             else
             {
-                _ballAnimateTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+                _ballAnimateTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
                 if (_ballAnimateTimeTracker >= 0.6)
                 {
                     animationFrame += 1;
@@ -153,9 +153,9 @@ namespace TableTopFury.Objects
                     Explode();         
                 }
 
-                if (position.Y > graphics.PreferredBackBufferHeight - ((texture.Height / frameRows) / 2))
+                if (position.Y > GameState.Graphics.PreferredBackBufferHeight - ((texture.Height / frameRows) / 2))
                 {
-                    position.Y = graphics.PreferredBackBufferHeight - ((texture.Height / frameRows) / 2);
+                    position.Y = GameState.Graphics.PreferredBackBufferHeight - ((texture.Height / frameRows) / 2);
                     speedY += new Random().Next(-1, 1);
                     if (speedY > 0)
                     {
@@ -273,7 +273,7 @@ namespace TableTopFury.Objects
                 //}
                 position.X += (int)(speedX * scaleModifier);
 
-                _rotationTimeTracker += gameTime.ElapsedGameTime.TotalSeconds;
+                _rotationTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
                 if (_rotationTimeTracker >= 0.05 && !isExploding)
                 {
                     rotation += speedX / 2 + speedY / 2;
@@ -295,7 +295,7 @@ namespace TableTopFury.Objects
             sourceRectangle = new Rectangle((texture.Width / framesPerRow) * (animationFrame - 1), 0, texture.Width / framesPerRow, texture.Height / frameRows);
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public override void Draw()
         {
             if (animationFrame < explodeFrames || isExploding)
             {
@@ -305,7 +305,7 @@ namespace TableTopFury.Objects
                 //_texture.SetData(new Color[] { Color.Red });
 
                 //spriteBatch.Draw(_texture, GetCollisionBoundaries(), Color.White);
-                spriteBatch.Draw(
+                GameState.CurrentSpriteBatch.Draw(
                  texture,
                  position,
                  sourceRectangle,

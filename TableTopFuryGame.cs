@@ -44,7 +44,7 @@ namespace TableTopFury
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _currentMode.Update(gameTime, _graphics);
+            _currentMode.Update();
 
             Mode _nextMode = _currentMode.CheckForModeChange();
 
@@ -70,7 +70,7 @@ namespace TableTopFury
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
             GameState.CurrentSpriteBatch = _spriteBatch;
-            _currentMode.Draw(gameTime, _spriteBatch, _graphics);
+            _currentMode.Draw();
             
             _spriteBatch.End();            
 

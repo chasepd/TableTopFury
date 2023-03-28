@@ -45,19 +45,19 @@ namespace TableTopFury.Modes
             }
         }
 
-        public virtual void Update(GameTime gameTime, GraphicsDeviceManager graphics)
+        public virtual void Update()
         {
             foreach (TTFObject obj in _onScreenObjects)
             {
-                obj.Update(gameTime, graphics, _onScreenObjects);
+                obj.Update(_onScreenObjects);
             }
         }
 
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public virtual void Draw()
         {
             foreach (TTFObject obj in _onScreenObjects)
             {
-                obj.Draw(gameTime, spriteBatch, graphics);
+                obj.Draw();
             }
         }
 
