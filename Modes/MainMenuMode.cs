@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TableTopFury.Menus;
 using TableTopFury.Menus.Settings;
+using TableTopFury.Menus.Settings.Graphics;
 using TableTopFury.Menus.SinglePlayer;
 using TableTopFury.Menus.Versus;
 using TableTopFury.Objects;
@@ -25,6 +26,7 @@ namespace TableTopFury.Modes
         protected Stack<MenuSwitchMode.MenuToSwitchTo> menuHistory;
         protected MenuSwitchMode.MenuToSwitchTo currentMenu;
         protected Song _menuTheme;
+
         public MainMenuMode() : base()
         {        
             currentMenu = MenuSwitchMode.MenuToSwitchTo.MainMenu;
@@ -48,7 +50,11 @@ namespace TableTopFury.Modes
             var kstate = Keyboard.GetState();
             _selectionTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
 
-            Mode nextScreenCheck = _menuItems[_selectedItem].CheckForNextScreen();
+            Mode nextScreenCheck = null;
+            if (_menuItems.Count > 0)
+            {
+                nextScreenCheck = _menuItems[_selectedItem].CheckForNextScreen();
+            }
             if (nextScreenCheck != null && nextScreenCheck is not MenuSwitchMode && nextScreenCheck is not BackMode)
             {
                 if (_selectionTimeTracker > _selectionTimeDelay)
@@ -104,7 +110,10 @@ namespace TableTopFury.Modes
                 {
                     _selectionTimeTracker = 1000;
                 }
-                _menuItems[_selectedItem].Select();
+                if (_menuItems.Count > 0)
+                {
+                    _menuItems[_selectedItem].Select();
+                }
             }
         }
 
@@ -118,22 +127,34 @@ namespace TableTopFury.Modes
             _selectedItem = 0;
             _selectionTimeTracker = 0.0;
             _nextMode = null;
+            
             switch (currentMenu)
             {
                 case MenuSwitchMode.MenuToSwitchTo.MainMenu:
                     _menuItems = new List<MainMenuItem>() { new SinglePlayerMenuItem(), new VersusMenuItem(), new SettingsMenuItem(), new ExitMenuItem() };
+                    currentPopUpMenu = null;
                     break;
                 case MenuSwitchMode.MenuToSwitchTo.Settings:
                     _menuItems = new List<MainMenuItem>() { new GraphicsSettingsMenuItem(), new ControlsSettingsMenuItem(), new SoundSettingsMenuItem(), new BackMenuItem(7) };
+                    currentPopUpMenu = null;
                     break;
                 case MenuSwitchMode.MenuToSwitchTo.SinglePlayer:
                     _menuItems = new List<MainMenuItem>() { new CampaignMenuItem(), new ResetProgressMenuItem(), new BackMenuItem(6) };
+                    currentPopUpMenu = null;
                     break;
                 case MenuSwitchMode.MenuToSwitchTo.Versus:
                     _menuItems = new List<MainMenuItem>() { new TwoPlayersMenuItem(), new VsAiMenuItem(), new BackMenuItem(6) };
+                    currentPopUpMenu = null;
+                    break;
+                case MenuSwitchMode.MenuToSwitchTo.GraphicsOptions:
+                    _menuItems = new List<MainMenuItem>();
+                    currentPopUpMenu = new GraphicsPopUpMenu();
                     break;
             }
-
+            if(currentPopUpMenu != null)
+            {
+                currentPopUpMenu.Initialize();
+            }
             ClearOnscreenObjects();
             foreach (MainMenuItem item in _menuItems)
             {
@@ -141,7 +162,10 @@ namespace TableTopFury.Modes
                 item.LoadContent();
                 AddOnscreenObject(item);
             }
-            _menuItems[_selectedItem].Select();
+            if (_menuItems.Count > 0)
+            {
+                _menuItems[_selectedItem].Select();
+            }
         }
     }
 }

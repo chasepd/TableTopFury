@@ -25,7 +25,7 @@ namespace TableTopFury.Menus.Settings
         {
             if (_navigate)
             {
-                return null;
+                return new MenuSwitchMode(MenuSwitchMode.MenuToSwitchTo.GraphicsOptions);
             }
             return null;
         }

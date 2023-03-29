@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using TableTopFury.Menus;
 using TableTopFury.Modes;
 
 namespace TableTopFury
@@ -13,6 +14,7 @@ namespace TableTopFury
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Mode _currentMode;
+        //private List<PopUpMenu> popUpMenus;
 
         public TableTopFuryGame()
         {
@@ -25,6 +27,7 @@ namespace TableTopFury
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             _currentMode = new StartupMode();            
+            //popUpMenus = new List<PopUpMenu>();
         }
 
         protected override void Initialize()
@@ -41,8 +44,19 @@ namespace TableTopFury
         protected override void Update(GameTime gameTime)
         {
             GameState.GameTime = gameTime;
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+            //    if (popUpMenus.Count > 0)
+            //    {
+            //        popUpMenus.Clear();
+            //    }
+            //    else
+            //    {
+            //        PopUpMenu popUp = new PopUpMenu();
+            //        popUp.Initialize();
+            //        popUpMenus.Add(popUp);
+            //    }
+            //}
+            //    //Exit();
 
             _currentMode.Update();
 
@@ -70,8 +84,12 @@ namespace TableTopFury
 
             _spriteBatch.Begin(SpriteSortMode.BackToFront);
             GameState.CurrentSpriteBatch = _spriteBatch;
+
             _currentMode.Draw();
-            
+            //foreach (PopUpMenu popUpMenu in popUpMenus)
+            //{
+            //    popUpMenu.Draw();
+            //}
             _spriteBatch.End();            
 
             base.Draw(gameTime);

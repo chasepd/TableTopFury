@@ -13,7 +13,13 @@ namespace TableTopFury.Modes
             MainMenu,
             Settings,
             SinglePlayer,
-            Versus
+            Versus,
+            GraphicsOptions,
+            ControlsOptions,
+            SoundOptions,
+            CampaignOptions,
+            VersusOptions,
+            ResetConfirmation
         }
 
         private MenuToSwitchTo _switchTo;

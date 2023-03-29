@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TableTopFury.Menus;
 using TableTopFury.Objects;
 
 namespace TableTopFury.Modes
@@ -14,9 +15,11 @@ namespace TableTopFury.Modes
     {
 
         private List<TTFObject> _onScreenObjects;
+        protected PopUpMenu currentPopUpMenu;
         public Mode()
         {
             _onScreenObjects = new List<TTFObject>();
+            currentPopUpMenu = null;
         }
 
         protected virtual void AddOnscreenObject(TTFObject obj)
@@ -58,6 +61,10 @@ namespace TableTopFury.Modes
             foreach (TTFObject obj in _onScreenObjects)
             {
                 obj.Draw();
+            }
+            if(currentPopUpMenu != null)
+            {
+                currentPopUpMenu.Draw();
             }
         }
 
