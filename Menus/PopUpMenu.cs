@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,15 @@ namespace TableTopFury.Menus
 
         protected Rectangle drawBoundaries;
         private List<PopUpMenuItem> _menuItems;
+        private int _selectedIndex;
+        private const double _selectionDelay = 0.2;
+        private double _selectionTimeTracker;
 
         public PopUpMenu() 
         {
-            _menuItems = new List<PopUpMenuItem>();
+            _menuItems = new List<PopUpMenuItem>();            
+            _selectedIndex = 0;
+            _selectionTimeTracker = 0;
         }
 
         public virtual void Initialize()
@@ -38,7 +44,37 @@ namespace TableTopFury.Menus
 
         public abstract void LoadContent();
 
-        public abstract void Update();
+        public virtual void Update()
+        {
+            drawBoundaries = new Rectangle(
+                GameState.Graphics.PreferredBackBufferWidth / 4,
+                GameState.Graphics.PreferredBackBufferHeight / 4,
+                GameState.Graphics.PreferredBackBufferWidth / 2,
+                GameState.Graphics.PreferredBackBufferHeight / 2);
+            _selectionTimeTracker += GameState.GameTime.ElapsedGameTime.TotalSeconds;
+            var kstate = Keyboard.GetState();
+            if ((kstate.IsKeyDown(Keys.Up) || kstate.IsKeyDown(Keys.W)) && _selectionTimeTracker > _selectionDelay && _selectedIndex > 0)
+            {
+                _selectedIndex--;
+                _selectionTimeTracker = 0;
+            }
+            else if ((kstate.IsKeyDown(Keys.Down) || kstate.IsKeyDown(Keys.S)) && _selectionTimeTracker > _selectionDelay && _selectedIndex < _menuItems.Count - 1)
+            {
+                _selectedIndex++;
+                _selectionTimeTracker = 0;
+            }
+
+            foreach (var item in _menuItems)
+            {
+                item.Unselect();
+            }
+            _menuItems[_selectedIndex].Select();
+
+            foreach(var item in _menuItems)
+            {
+                item.Update();
+            }
+        }
 
         public virtual void Draw() 
         {            

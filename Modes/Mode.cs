@@ -50,6 +50,10 @@ namespace TableTopFury.Modes
 
         public virtual void Update()
         {
+            if(currentPopUpMenu != null)
+            {
+                currentPopUpMenu.Update();
+            }
             foreach (TTFObject obj in _onScreenObjects)
             {
                 obj.Update(_onScreenObjects);

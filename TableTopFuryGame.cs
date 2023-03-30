@@ -20,9 +20,10 @@ namespace TableTopFury
         {
             _graphics = new GraphicsDeviceManager(this);
             GameState.Graphics = _graphics;
-            var displaymodes = GraphicsAdapter.DefaultAdapter.SupportedDisplayModes;
-            _graphics.PreferredBackBufferHeight = 1080;
-            _graphics.PreferredBackBufferWidth = 1920;
+            var displaymode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+            _graphics.PreferredBackBufferHeight = displaymode.Height;
+            _graphics.PreferredBackBufferWidth = displaymode.Width;
+            GameState.CurrentResolution = new Menus.Settings.Graphics.Resolution(displaymode.Width, displaymode.Height);
             //_graphics.ToggleFullScreen();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -39,10 +40,27 @@ namespace TableTopFury
         protected override void LoadContent()
         {            
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            GameState.MenuArrow = Content.Load<Texture2D>("MenuChoiceArrow");
         }
 
         protected override void Update(GameTime gameTime)
         {
+            bool resolutionChanged = false;
+            if (_graphics.PreferredBackBufferHeight != (int)GameState.CurrentResolution.GetHeight())
+            {
+                _graphics.PreferredBackBufferHeight = (int)GameState.CurrentResolution.GetHeight();
+                resolutionChanged = true;
+            }
+            if (_graphics.PreferredBackBufferWidth != (int)GameState.CurrentResolution.GetWidth())
+            {
+                _graphics.PreferredBackBufferWidth = (int)GameState.CurrentResolution.GetWidth();
+                resolutionChanged = true;
+            }
+
+            if (resolutionChanged)
+            {
+                _graphics.ApplyChanges();
+            }
             GameState.GameTime = gameTime;
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) {
             //    if (popUpMenus.Count > 0)

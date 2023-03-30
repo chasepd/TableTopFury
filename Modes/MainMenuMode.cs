@@ -149,11 +149,8 @@ namespace TableTopFury.Modes
                 case MenuSwitchMode.MenuToSwitchTo.GraphicsOptions:
                     _menuItems = new List<MainMenuItem>();
                     currentPopUpMenu = new GraphicsPopUpMenu();
+                    currentPopUpMenu.Initialize();
                     break;
-            }
-            if(currentPopUpMenu != null)
-            {
-                currentPopUpMenu.Initialize();
             }
             ClearOnscreenObjects();
             foreach (MainMenuItem item in _menuItems)
