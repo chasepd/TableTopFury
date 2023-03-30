@@ -57,3 +57,5 @@ See attributions for information about what license the art and sound is license
 All of the music is by [GTDStudio aka Palrom/ Pavel Panferov of OpenGameArt.org](https://opengameart.org/users/gtdstudio-aka-palrom). It is licensed under the [OGA-BY 3.0 License](https://opengameart.org/content/oga-by-30-faq).
 
 The sound effects except the booster fire sound effect are all from OpenGameArt.org as well and are licensed under the [CC0 license](https://creativecommons.org/choose/zero/).
+
+All the art and the booster sound effect are unique to this project and are licensed in the same way as the project.
