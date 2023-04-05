@@ -42,16 +42,6 @@ Sure, but no guarantees it will get fixed promptly, or ever. If it's really bugg
 ## What Will Be Added
 Whatever I feel like adding or that someone feels like submitting a PR for.
 
-## Why the GPL license instead of MIT License?
-There are a lot of things I think the MIT License makes sense for - a lot of the internet is built on the MIT license. However, for a game,
-I feel like GPL makes more sense. Want to take this code and fix it up and make something really cool out of it? Awesome! But let the rest of us learn 
-from you too and share your source code like this is shared. Not that this is particularly great or worthy of using, but it's more of the spirit of the thing.
-
-You should also note that not everything here is licensed under the GPL license. Specifically, the MonoGame framework that this uses is available
-under the MIT License.
-
-See attributions for information about what license the art and sound is licensed under.
-
 ## Attributions
 
 All of the music is by [GTDStudio aka Palrom/ Pavel Panferov of OpenGameArt.org](https://opengameart.org/users/gtdstudio-aka-palrom). It is licensed under the [OGA-BY 3.0 License](https://opengameart.org/content/oga-by-30-faq).
